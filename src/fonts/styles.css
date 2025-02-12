@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'Quantum';
+  src: url('../fonts/Quantum.otf');
+}
+
+.font-quantum {
+  font-family: 'Quantum', sans-serif;
+
+}
+
+
