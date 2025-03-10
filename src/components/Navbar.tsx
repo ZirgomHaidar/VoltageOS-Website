@@ -3,7 +3,7 @@ import voltage from "../assets/voltage.svg"
 
 function Navbar() {
   return (
-    <nav className="flex items-center justify-between px-20 py-10">
+    <nav className="z-20 flex items-center justify-between px-20 py-10">
       <Link to="/">
         <img src={voltage} alt="voltage with Quantum Font" className="" />
       </Link>
