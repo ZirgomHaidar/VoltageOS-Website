@@ -4,7 +4,7 @@ import telegram from "../assets/telegramico.svg"
 
 function Footer() {
   return (
-    <footer className="bg-Voltage-bgComponent mx-16 my-8 flex items-center justify-between rounded-4xl p-14">
+    <footer className="bg-Voltage-bgComponent my-8 flex items-center justify-between rounded-4xl p-14 lg:mx-10 xl:mx-40">
       <div className="space-y-4">
         <img src={voltage} alt="voltage with Quantum Font" className="" />
         <h6>© 2021 - 2024 VoltageOS</h6>
@@ -33,7 +33,7 @@ export default Footer
 
 const Button = () => {
   return (
-    <button className="bg-Voltage-buttonPrimary text-Voltage-textPrimary rounded-xl px-4 py-2 uppercase">
+    <button className="bg-Voltage-buttonPrimary rounded-xl px-4 py-2 text-black uppercase">
       Join
     </button>
   )

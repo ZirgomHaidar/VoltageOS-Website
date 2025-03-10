@@ -18,7 +18,7 @@ function Maintainership() {
 
       <div className="bg-Voltage-bgComponent text-Voltage-textSecondary border-Voltage-borderComponent mx-8 rounded-4xl border-3 px-10 py-5">
         <h2>Basic criteria for application are:</h2>
-        <ul className="mt-6 list-inside space-y-4 text-xl">
+        <ul className="mt-6 list-inside space-y-4 text-xl markerstyle">
           <li>
             Applicants are permitted to maintain only one custom ROM, whether it
             is official or unofficial, in conjunction with VoltageOS.
