@@ -1,55 +1,70 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
 
 body {
-    font-family: 'Inter', sans-serif;
-    h1 { @apply text-5xl; }
-    h2 { @apply text-4xl; }
-    h3 { @apply text-3xl; }
-    h4 { @apply text-2xl; }
-    h5 { @apply text-xl; }
-    h6 { @apply text-lg; }
-    p { @apply text-base; }
+  font-family: "Excon", sans-serif;
+  h1 {
+    @apply text-5xl;
+  }
+  h2 {
+    @apply text-4xl;
+  }
+  h3 {
+    @apply text-3xl;
+  }
+  h4 {
+    @apply text-2xl;
+  }
+  h5 {
+    @apply text-xl;
+  }
+  h6 {
+    @apply text-lg;
+  }
+  p {
+    @apply text-base;
+  }
 }
 
 @theme {
-    --color-Voltage-textSecondary: #fffce5;
-    --color-Voltage-100: #fff8cc;
-    --color-Voltage-200: #fff199;
-    --color-Voltage-textPrimary: #ffeb66;
-    --color-Voltage-400: #ffe433;
-    --color-Voltage-primary: #ffde00;
-    --color-Voltage-600: #c2a800;
-    --color-Voltage-buttonHover: #8a7700;
-    --color-Voltage-borderComponent: #4d4200;
-    --color-Voltage-bgComponent: #141200;
-
-    --animate-spin: spin 3s linear infinite;
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-  }
+  --color-Voltage-textSecondary: #fffce5;
+  --color-Voltage-100: #fff8cc;
+  --color-Voltage-200: #fff199;
+  --color-Voltage-textPrimary: #ffeb66;
+  --color-Voltage-400: #ffe433;
+  --color-Voltage-primary: #ffde00;
+  --color-Voltage-600: #c2a800;
+  --color-Voltage-buttonHover: #8a7700;
+  --color-Voltage-buttonPrimary: #f9eb93;
+  --color-Voltage-borderComponent: #4d4200;
+  --color-Voltage-bgComponent: #131209;
+  --color-Voltage-textInfo: #979380;
+  --color-Voltage-imgContainer: #18170b;
+}
 
 .active {
-    @apply text-Voltage-primary;
+  @apply text-Voltage-primary;
 }
 
 .buttonPrimary {
-    @apply bg-Voltage-primary text-black px-4 py-2 rounded-full text-center;
+  @apply bg-Voltage-primary rounded-full px-4 py-2 text-center text-black;
 }
 
 .buttonSecondary {
-    @apply bg-Voltage-bgComponent text-Voltage-textPrimary px-4 py-2 rounded-full border-Voltage-400 border text-center;
+  @apply bg-Voltage-bgComponent text-Voltage-textPrimary border-Voltage-400 rounded-full border px-4 py-2 text-center;
 }
 
-li::marker {
-    content: '- ';
-    font-size: 1.2em;
+.markerstyle li::marker {
+  content: "- ";
+  font-size: 1.2em;
 }
 
 .circular-gradient {
-    border-radius: 9999px;
-    background: #ffde0050;
-    filter: blur(63.272727966308594px);
+  border-radius: 9999px;
+  background: #ffde0050;
+  filter: blur(63.272727966308594px);
+}
+
+li::marker {
+  content: "";
 }

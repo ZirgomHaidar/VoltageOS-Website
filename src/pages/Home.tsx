@@ -1,74 +1,50 @@
-import star from "../assets/star.svg"
+import HeroBG from "../assets/HeroBG.png"
 import voltage from "../assets/voltage.svg"
-import device from "../assets/device.svg"
 import visual from "../assets/visual.svg"
 import { Link } from "react-router"
 import Card from "../components/Card"
-import Counter from "../components/Counter"
-import Carousel from "../components/Carousel"
+import maintainers from "../assets/maintainers.png"
+import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards"
+import HorizontalScrollCarousel from "../components/Carousel"
 
 function Home() {
   return (
     <>
-      {/* <div className="flex items-center justify-center">
-        <div className="relative flex items-center justify-center">
-          <div className="circular-gradient absolute size-130 animate-pulse"></div>
-          <img src={visual} alt="mobile visual" className="z-10" />
-        </div>
-        <div className="relative flex flex-col items-center justify-center">
-          <div
-            className="font-quantum text-Voltage-textPrimary/10 absolute z-0 text-center text-[400px] xl:text-[450px]"
-            style={{
-              letterSpacing: navigator.userAgent.includes("Firefox")
-                ? "-90px"
-                : "0px",
-            }}
-          >
-            <Counte value={4.1} />
-          </div>
-          <div className="z-20 ml-6 space-y-6">
-            <h2 className="text-4xl font-medium text-stone-400 uppercase">
-              Welcome to the
-              <img src={voltage} alt="voltage" className="mt-3 h-12" />
-            </h2>
-            <Link to="/devices" className="">
-              <button className="bg-Voltage-primary w-fit cursor-pointer rounded-full px-6 py-2 font-medium text-black shadow-[4px_4px_0px_#464646] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
-                Get voltage OS
-              </button>
-            </Link>
-          </div>
-        </div>
-      </div> */}
-
-      <div
-        className="relative my-64 flex items-center justify-center"
-        style={{ height: "calc(100vh - 42rem)" }}
-      >
-        <Counter
-          className="font-quantum text-Voltage-textPrimary/10 absolute z-0 text-center text-[400px] xl:text-[450px]"
-          value={4.1}
+      <div className="relative mb-28 flex items-center justify-between">
+        <img
+          src={HeroBG}
+          alt="HeroBG"
+          className="absolute z-0 hidden max-h-screen w-full object-cover lg:block"
         />
-        <div className="z-20 space-y-6">
-          <h2 className="text-4xl font-medium text-stone-400 uppercase">
+        <div className="z-10 flex items-center justify-center">
+          <img src={visual} alt="mobile visual" className="h-150" />
+        </div>
+        <div className="z-10 ml-6 flex flex-col items-end space-y-6 text-end">
+          <h2 className="text-Voltage-200 text-4xl font-medium uppercase">
             Welcome to the
-            <img src={voltage} alt="voltage" className="mt-3 h-12" />
           </h2>
+          <img src={voltage} alt="voltage" className="h-12" />
+          <h5>Powering Your Devices with Performance & Simplicity</h5>
           <Link to="/devices" className="">
-            <button className="bg-Voltage-primary w-fit cursor-pointer rounded-full px-6 py-2 font-medium text-black shadow-[6px_6px_0px_#565656] transition-all hover:translate-x-[6px] hover:translate-y-[6px] hover:shadow-none">
+            <button className="text-Voltage-primary border-Voltage-200 w-fit cursor-pointer rounded-full border-2 px-6 py-2 font-medium">
               Get voltage OS
             </button>
           </Link>
         </div>
       </div>
 
-      <div className="bg-Voltage-bgComponent mb-28 flex items-center justify-between rounded-4xl px-24 py-14">
-        <div className="flex flex-col space-y-4">
-          <h1 className="font-semibold">
-            Experienced <br />
-            maintainers for each <br />
-            supported devices
-          </h1>
-          <div className="flex space-x-4">
+      <HorizontalScrollCarousel />
+
+      <div className="bg-Voltage-bgComponent mb-28 flex items-center justify-between px-12 py-14 md:px-24">
+        <div className="flex flex-col space-y-5">
+          <h2 className="text-Voltage-textPrimary">Join Us as a Maintainer!</h2>
+          <h5 className="text-Voltage-textSecondary max-w-150 leading-8">
+            We’re always looking for passionate developers to help us grow
+            VoltageOS. Whether you’re experienced or just starting out, we
+            welcome contributions from all skill levels. Together, let’s build
+            something amazing!
+          </h5>
+          <div className="flex flex-col gap-3 md:flex-row">
             <Link to="/devices" className="buttonPrimary">
               View Devices
             </Link>
@@ -77,10 +53,14 @@ function Home() {
             </Link>
           </div>
         </div>
-        <img src={device} alt="device maintainer" />
+        <img
+          src={maintainers}
+          alt="device maintainer"
+          className="hidden md:block"
+        />
       </div>
 
-      <div className="space-y-6">
+      <div className="mb-28 space-y-6">
         <div className="space-y-2 text-center">
           <h2 className="text-Voltage-textPrimary font-semibold">
             Latest added devices
@@ -98,8 +78,75 @@ function Home() {
           </div>
         </div>
       </div>
+
+      <div className="mb-28 space-y-4">
+        <div className="space-y-2 text-center">
+          <h2 className="text-Voltage-textPrimary font-semibold">
+            Testimonials
+          </h2>
+          <h5>What Our Users Say About VoltageOS</h5>
+        </div>
+
+        <InfiniteMovingCards
+          items={testimonials}
+          direction="right"
+          speed="slow"
+        />
+
+        <InfiniteMovingCards
+          items={testimonials}
+          direction="left"
+          speed="slow"
+        />
+      </div>
+
+      <div className="bg-Voltage-bgComponent flex flex-col items-center justify-evenly gap-4 rounded-4xl p-12 min-[960px]:mx-10 md:flex-row">
+        <h2 className="max-w-100 font-bold tracking-wide">
+          Support VoltageOS Help Us Keep Innovating!
+        </h2>
+        <div className="flex max-w-100 flex-col space-y-4">
+          <span>
+            VoltageOS is a passion project built by enthusiasts like you. While
+            we don’t push for donations, even a small contribution helps us
+            cover server costs and keep the project alive. Every bit counts!
+          </span>
+          <span className="">
+            <Link to="#" className="">
+              <button className="text-Voltage-primary w-fit cursor-pointer rounded-full px-6 py-2 font-medium">
+                Donate Now
+              </button>
+            </Link>
+            <Link to="#" className="">
+              <button className="text-Voltage-primary border-Voltage-200 w-fit cursor-pointer rounded-full border-2 px-6 py-2 font-medium">
+                Join Our Community
+              </button>
+            </Link>
+          </span>
+        </div>
+      </div>
     </>
   )
 }
+
+const testimonials = [
+  {
+    quote:
+      "I was skeptical at first, but VoltageOS turned my old phone into a beast! Highly recommend!",
+    name: "Lorenzo",
+    desc: "Voltage OS users since 2018",
+  },
+  {
+    quote:
+      "As someone who isn’t tech-savvy, I was worried about installing a custom ROM. But VoltageOS made the process so easy, and the results are amazing!",
+    name: "William",
+    desc: "Voltage OS users since 2021",
+  },
+  {
+    quote:
+      "VoltageOS completely changed my perception of custom ROMs. It’s stable, fast, and packed with features I didn’t even know I needed!",
+    name: "Edgar",
+    desc: "Voltage OS users since 2022",
+  },
+]
 
 export default Home
