@@ -3,10 +3,8 @@ import { Link } from "react-router"
 function Maintainership() {
   return (
     <>
-      <div className="mb-28 items-center space-y-2 text-center">
-        <h1 style={{ fontSize: 70 }} className="mb-8 font-bold">
-          Maintainership
-        </h1>
+      <div className="mb-14 items-center space-y-2 text-center lg:mb-28">
+        <h1 className="mb-8 font-bold tracking-wide">Maintainership</h1>
         <h3>Can"t Find Your Device? Apply for your device and Join us</h3>
         <h6>
           Fore more info join{" "}
@@ -16,9 +14,9 @@ function Maintainership() {
         </h6>
       </div>
 
-      <div className="bg-Voltage-bgComponent text-Voltage-textSecondary border-Voltage-borderComponent mx-8 rounded-4xl border-3 px-10 py-5">
+      <div className="bg-Voltage-bgComponent text-Voltage-textSecondary border-Voltage-borderComponent rounded-4xl border-3 px-10 py-5 lg:mx-8">
         <h2>Basic criteria for application are:</h2>
-        <ul className="mt-6 list-inside space-y-4 text-xl markerstyle">
+        <ul className="markerstyle mt-6 list-inside space-y-4 lg:text-xl">
           <li>
             Applicants are permitted to maintain only one custom ROM, whether it
             is official or unofficial, in conjunction with VoltageOS.

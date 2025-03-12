@@ -4,10 +4,8 @@ import Card from "../components/Card"
 function Devices() {
   return (
     <>
-      <div className="mb-28 items-center space-y-2 text-center">
-        <h1 style={{ fontSize: 70 }} className="mb-8 font-bold">
-          Devices
-        </h1>
+      <div className="mb-14 items-center space-y-2 text-center lg:mb-28">
+        <h1 className="mb-8 font-bold tracking-wide">Devices</h1>
         <h3>Checkout list of devices here and download it for your device</h3>
         <h6>
           Fore more info join{" "}

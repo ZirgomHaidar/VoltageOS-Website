@@ -4,13 +4,13 @@
 body {
   font-family: "Excon", sans-serif;
   h1 {
-    @apply text-5xl;
+    @apply text-5xl lg:text-7xl;
   }
   h2 {
-    @apply text-4xl;
+    @apply text-3xl lg:text-4xl;
   }
   h3 {
-    @apply text-3xl;
+    @apply text-xl lg:text-3xl;
   }
   h4 {
     @apply text-2xl;
@@ -19,7 +19,7 @@ body {
     @apply text-xl;
   }
   h6 {
-    @apply text-lg;
+    @apply text-base lg:text-lg;
   }
   p {
     @apply text-base;

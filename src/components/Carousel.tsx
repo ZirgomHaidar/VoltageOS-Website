@@ -33,9 +33,9 @@ const Card = ({ card }: { card: CardType }) => {
   return (
     <div
       key={card.id}
-      className="bg-Voltage-bgComponent relative flex flex-col-reverse items-center justify-between gap-8 overflow-hidden p-6 lg:w-220 lg:flex-row lg:p-10 xl:w-300"
+      className="bg-Voltage-bgComponent border-Voltage-borderComponent relative flex flex-col-reverse items-center justify-between gap-8 overflow-hidden rounded-2xl border-4 p-6 lg:w-220 lg:flex-row lg:p-10 xl:w-300"
     >
-      <img src={card.picSrc} alt="pic" className="w-fit lg:w-100" />
+      <img src={card.picSrc} alt="pic" className="w-72 lg:w-100" />
       <div className="w-65 space-y-10 lg:w-130">
         <h2 className="text-Voltage-textPrimary">{card.title}</h2>
         <h5 className="text-Voltage-textSecondary">{card.desc}</h5>

@@ -10,16 +10,16 @@ import HorizontalScrollCarousel from "../components/Carousel"
 function Home() {
   return (
     <>
-      <div className="relative mb-28 flex items-center justify-between">
+      <div className="relative mb-28 flex flex-col items-center justify-between gap-10 lg:flex-row">
         <img
           src={HeroBG}
           alt="HeroBG"
           className="absolute z-0 hidden max-h-screen w-full object-cover lg:block"
         />
-        <div className="z-10 flex items-center justify-center">
-          <img src={visual} alt="mobile visual" className="h-150" />
+        <div className="z-10">
+          <img src={visual} alt="mobile visual" className="h-100 lg:h-150" />
         </div>
-        <div className="z-10 ml-6 flex flex-col items-end space-y-6 text-end">
+        <div className="z-10 flex flex-col items-center space-y-6 text-center lg:ml-6 lg:items-end lg:text-end">
           <h2 className="text-Voltage-200 text-4xl font-medium uppercase">
             Welcome to the
           </h2>
@@ -38,13 +38,13 @@ function Home() {
       <div className="bg-Voltage-bgComponent mb-28 flex items-center justify-between px-12 py-14 md:px-24">
         <div className="flex flex-col space-y-5">
           <h2 className="text-Voltage-textPrimary">Join Us as a Maintainer!</h2>
-          <h5 className="text-Voltage-textSecondary max-w-150 leading-8">
+          <h5 className="text-Voltage-textSecondary leading-8 lg:max-w-150">
             We’re always looking for passionate developers to help us grow
             VoltageOS. Whether you’re experienced or just starting out, we
             welcome contributions from all skill levels. Together, let’s build
             something amazing!
           </h5>
-          <div className="flex flex-col gap-3 md:flex-row">
+          <div className="flex flex-col gap-3 lg:flex-row">
             <Link to="/devices" className="buttonPrimary">
               View Devices
             </Link>
@@ -56,7 +56,7 @@ function Home() {
         <img
           src={maintainers}
           alt="device maintainer"
-          className="hidden md:block"
+          className="hidden lg:block"
         />
       </div>
 
@@ -100,7 +100,7 @@ function Home() {
         />
       </div>
 
-      <div className="bg-Voltage-bgComponent flex flex-col items-center justify-evenly gap-4 rounded-4xl p-12 min-[960px]:mx-10 md:flex-row">
+      <div className="bg-Voltage-bgComponent flex flex-col items-center justify-evenly gap-4 rounded-4xl p-12 text-center min-[960px]:mx-10 md:flex-row md:text-left">
         <h2 className="max-w-100 font-bold tracking-wide">
           Support VoltageOS Help Us Keep Innovating!
         </h2>
