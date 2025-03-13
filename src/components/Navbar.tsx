@@ -24,13 +24,14 @@ const Navbar = () => {
             to="/"
             className="flex items-center transition-opacity duration-200 hover:opacity-80"
             aria-label="Home"
+            onClick={() => setIsOpen(false)}
           >
             <img src={voltage} alt="VoltageOS" className="w-40 lg:w-fit" />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden items-center space-x-4 md:flex">
-            {navigation.map((item) => (
+            {navigation.map((item) => ( 
               <Link
                 key={item.name}
                 to={item.href}
@@ -58,12 +59,12 @@ const Navbar = () => {
             <span className="sr-only">Open main menu</span>
             {isOpen ? (
               <IoMdClose
-                className="fill fill-Voltage-primary block size-8"
+                className="fill-Voltage-primary block size-8"
                 aria-hidden="true"
               />
             ) : (
               <HiMenuAlt3
-                className="fill fill-Voltage-primary block size-8"
+                className="fill-Voltage-primary block size-8"
                 aria-hidden="true"
               />
             )}
@@ -80,9 +81,10 @@ const Navbar = () => {
       >
         <div className="space-y-1 px-2 pt-2 pb-3">
           {navigation.map((item) => (
-            <a
+            <Link
               key={item.name}
-              href={item.href}
+              to={item.href}
+              onClick={() => setIsOpen(false)}
               className={`flex w-full items-center rounded-lg px-3 py-2 text-base transition-all duration-200 ${
                 isActive(item.href)
                   ? "bg-Voltage-buttonPrimary text-black"
@@ -91,7 +93,7 @@ const Navbar = () => {
               aria-current={isActive(item.href) ? "page" : undefined}
             >
               {item.name}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

@@ -15,7 +15,7 @@ const HorizontalScrollCarousel = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["1%", "-65%"])
 
   return (
-    <section ref={targetRef} className="relative mb-28 h-[200vh]">
+    <section ref={targetRef} className="mb-28 h-[200vh]">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex gap-4">
           {cards.map((card) => {
@@ -33,12 +33,12 @@ const Card = ({ card }: { card: CardType }) => {
   return (
     <div
       key={card.id}
-      className="bg-Voltage-bgComponent border-Voltage-borderComponent relative flex flex-col-reverse items-center justify-between gap-8 overflow-hidden rounded-2xl border-4 p-6 lg:w-220 lg:flex-row lg:p-10 xl:w-300"
+      className="bg-Voltage-bgComponent border-Voltage-borderComponent relative flex flex-col-reverse items-center justify-between gap-8 overflow-hidden rounded-2xl border-4 p-4 md:w-120 md:p-8 lg:w-220 lg:flex-row lg:p-10 xl:w-300"
     >
-      <img src={card.picSrc} alt="pic" className="w-72 lg:w-100" />
-      <div className="w-65 space-y-10 lg:w-130">
+      <img src={card.picSrc} alt="pic" className="w-50 md:w-80 lg:w-100" />
+      <div className="w-65 space-y-6 lg:w-130">
         <h2 className="text-Voltage-textPrimary">{card.title}</h2>
-        <h5 className="text-Voltage-textSecondary">{card.desc}</h5>
+        <h6 className="text-Voltage-textSecondary">{card.desc}</h6>
         <div className="w-fit rounded-2xl bg-black px-4 py-2">
           <span className="text-base">Powered By</span>
           <span className="flex gap-3 text-3xl">

@@ -1,86 +1,135 @@
-import { Link, useLocation } from "react-router"
-import { FaDonate } from "react-icons/fa"
-import { FaTelegram } from "react-icons/fa6"
-import { IoLogoGithub } from "react-icons/io"
+import { Link, useLocation, useParams } from "react-router"
 import { MdArrowOutward } from "react-icons/md"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import {
+  DeviceInfo,
+  fetchDeviceData,
+} from "../components/services/VoltageDevices"
+import { motion } from "motion/react"
 
 function Download() {
+  const [data, setData] = useState<DeviceInfo>()
   const location = useLocation()
+  const params = useParams()
+
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [location])
+    const loadDeviceData = async (): Promise<void> => {
+      try {
+        const deviceData = await fetchDeviceData(params.codename!.slice(1))
+        setData(deviceData)
+      } catch {
+        console.error("Failed to fetch device list. Please try again later.")
+      }
+    }
+    loadDeviceData()
+  }, [params.codename, location])
   return (
-    <>
-      <div className="bg-Voltage-bgComponent flex justify-between gap-12 rounded-4xl p-12 max-[830px]:flex-col">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
+      <div className="bg-Voltage-bgComponent border-Voltage-borderComponent flex justify-between gap-12 rounded-4xl border-4 p-12 max-[830px]:flex-col">
         {/* left */}
-        <div className="border-Voltage-borderComponent hidden min-w-60 rounded-3xl border-3 bg-black min-[1180px]:block"></div>
+        <img
+          src={`https://wiki.lineageos.org/images/devices/${data?.codename}.png`}
+          alt="device picture"
+          className="hidden min-w-60 object-contain min-[1180px]:block"
+        />
         {/* middle */}
         <div className="flex grow flex-col items-start justify-between space-y-8 py-2">
-          <div className="">
-            <div className="bg-Voltage-primary w-fit rounded-full px-4 py-2 text-black">
-              Android 15
-            </div>
-          </div>
           <div className="space-y-6 **:[&_h5]:text-[#969696]">
             <div className="">
               <h5>Device</h5>
-              <h2>Pixel 9 Pro</h2>
+              <h2>{data?.oem + " " + data?.device}</h2>
             </div>
             <div className="">
               <h5>Codename</h5>
-              <h2>Caiman</h2>
+              <h2>{data?.codename}</h2>
             </div>
             <div className="">
-              <h5>Build Date</h5>
-              <h2>12/02/25</h2>
+              <h5>Version</h5>
+              <h2>{data?.version}</h2>
+            </div>
+            <div className="">
+              <h5>Size</h5>
+              <h2>{((data?.size || 0) / 1024 / 1024 / 1024).toFixed(2)} GB</h2>
             </div>
           </div>
           <div className="bg-Voltage-borderComponent inline-flex w-full items-center justify-between gap-4 rounded-2xl p-4 max-[830px]:flex-wrap">
             <div className="inline-flex items-center gap-4">
-              <img src="" alt="MP" className="size-14 rounded-full bg-white" />
-              <h3>Maintainers Name</h3>
-            </div>
-            <div className="inline-flex gap-2">
-              <Link to="#">
-                <FaTelegram className="size-12" />
-              </Link>
-              <Link to="#">
-                <IoLogoGithub className="size-12" />
-              </Link>
-              <Link to="#">
-                <FaDonate className="size-12" />
-              </Link>
+              <img
+                src={`https://avatars.githubusercontent.com/${data?.maintainer}`}
+                alt="MP"
+                className="size-14 rounded-full bg-white"
+              />
+              <h3>{data?.maintainer}</h3>
             </div>
           </div>
         </div>
         {/* right */}
         <div className="flex flex-wrap justify-center gap-4 min-[830px]:flex-col">
-          <BuildCard href="#" />
-          <BuildCard href="#" prev={true} />
+          <BuildCard
+            href={data?.download || "404"}
+            version={Number(data?.version) || 0}
+            buildDate={data?.timestamp || 0}
+          />
+          <BuildCard
+            href={`https://sourceforge.net/projects/voltage-os/files/${data?.codename}/`}
+            prev={true}
+          />
         </div>
       </div>
-    </>
+    </motion.div>
   )
 }
 
 export default Download
 
-// add props to the BuildCard component
-const BuildCard = ({ href, prev }: { href: string; prev?: boolean }) => {
+const BuildCard = ({
+  href,
+  prev,
+  version,
+  buildDate,
+}: {
+  href: string
+  prev?: boolean
+  version?: number
+  buildDate?: number
+}) => {
   return (
-    <Link
-      to={href}
-      className="group flex w-full flex-col rounded-3xl bg-[#1E1D18] p-4 min-[643px]:size-60"
+    <motion.div
+      className="w-full rounded-3xl bg-[#1E1D18] p-4 min-[643px]:size-60"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
-      <div className="flex size-10 items-center justify-center self-end rounded-full border-3 transition-transform not-hover:rotate-0 group-hover:scale-105 group-hover:rotate-45">
-        <MdArrowOutward className="size-6" />
-      </div>
-      <div className="mt-6 [&_p]:tracking-wide">
-        <h3 className="mb-6">{prev ? "Previous builds" : "Latest Builds"}</h3>
-        <p>Latest Version: 4.1</p>
-        <p>Build Date: 14/02/24</p>
-      </div>
-    </Link>
+      <Link to={href} className="flex flex-col">
+        <motion.div
+          className="flex size-10 items-center justify-center self-end rounded-full border-3"
+          initial={{ rotate: 0 }}
+          whileInView={{ rotate: 45, transition: { delay: 1 } }}
+        >
+          <MdArrowOutward className="size-6" />
+        </motion.div>
+        <div className="mt-6 [&_p]:tracking-wide">
+          <h3 className="mb-6">{prev ? "Previous builds" : "Latest Builds"}</h3>
+          {!prev ? (
+            <div className="">
+              <p>Latest Version: {version}</p>
+              <p>
+                Build Date:{" "}
+                {new Date((buildDate || 0) * 1000)
+                  .toISOString()
+                  .toString()
+                  .slice(0, 10)}
+              </p>
+            </div>
+          ) : (
+            "Check in SourceForge"
+          )}
+        </div>
+      </Link>
+    </motion.div>
   )
 }

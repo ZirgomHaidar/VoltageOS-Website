@@ -1,37 +1,63 @@
 import { Link } from "react-router"
-import barbet from "../assets/barbet.png"
 import { MdOutlineFileDownload } from "react-icons/md"
 import { LuNotepadText } from "react-icons/lu"
+import { DeviceInfo } from "./services/VoltageDevices"
+import { motion } from "motion/react"
 
-function Card() {
+function Card({ deviceData }: { deviceData: DeviceInfo }) {
   return (
     <div className="bg-Voltage-bgComponent flex min-h-full w-[22rem] flex-col rounded-[32px] p-2 shadow-xl">
       <figure className="bg-Voltage-imgContainer flex items-center justify-center rounded-[22px] px-4 py-10">
-        <img src={barbet} alt="Card Preview" className="" />
+        <img
+          src={`https://wiki.lineageos.org/images/devices/${deviceData.codename}.png`}
+          alt="Device Preview"
+          className="h-52"
+        />
       </figure>
-      <div className="flex flex-col px-4 py-4">
+      <div className="flex grow flex-col justify-evenly px-4 py-4">
         <div className="space-y-2 pb-6">
-          <h4 className="text-Voltage-textPrimary">Google Pixel 9 pro</h4>
-          <h6>Caiman</h6>
+          <h4 className="text-Voltage-textPrimary">
+            {deviceData.oem + " " + deviceData.device}
+          </h4>
+          <h6>{deviceData.codename}</h6>
         </div>
         <div className="text-Voltage-text space-y-2 text-base">
           <h6>
-            Maintainer: <span className="text-Voltage-textInfo">whoever</span>
+            Version:{" "}
+            <span className="text-Voltage-textInfo">{deviceData.version}</span>
+          </h6>
+          <h6>
+            Maintainer:{" "}
+            <span className="text-Voltage-textInfo">
+              {deviceData.maintainer}
+            </span>
           </h6>
           <h6>
             Build date:{" "}
-            <span className="text-Voltage-textInfo">06/02/2025</span>
+            <span className="text-Voltage-textInfo">
+              {new Date(deviceData.timestamp! * 1000).toString().slice(4, 24)}
+            </span>
           </h6>
         </div>
-        <div className="*:text-Voltage-primary flex gap-4 pt-6 *:flex *:grow *:items-center *:justify-center *:gap-2 *:active:scale-95">
-          <Link to="#" className="">
+        <motion.div
+          className="*:text-Voltage-primary flex gap-4 pt-6 *:flex *:grow *:items-center *:justify-center *:gap-2 *:transition-transform *:hover:scale-105 *:active:scale-95"
+          whileInView={
+            window.innerWidth < 768
+              ? { scale: 1.05, transition: { delay: 0.3 } }
+              : {}
+          }
+        >
+          <Link
+            to={`https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/15-qpr1/changelog_${deviceData.codename}.txt`}
+            className=""
+          >
             <LuNotepadText /> Changelogs
           </Link>
-          <Link to="/devices/download/:codename" className="">
+          <Link to={`/devices/download/:${deviceData.codename}`} className="">
             <MdOutlineFileDownload />
             Download
           </Link>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

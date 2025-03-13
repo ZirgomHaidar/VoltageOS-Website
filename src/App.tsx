@@ -1,12 +1,14 @@
-import { Route, Routes } from "react-router"
+import { Route, Routes, useLocation } from "react-router"
 import Home from "./pages/Home"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import Devices from "./pages/Devices"
 import Maintainership from "./pages/Maintainership"
 import Download from "./pages/Download"
+import { AnimatePresence } from "motion/react"
 
 function App() {
+  const location = useLocation()
   return (
     <>
       <Navbar />
@@ -17,12 +19,14 @@ function App() {
             : "xl:mx-10 2xl:mx-64"
         }`}
       >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/devices" element={<Devices />} />
-          <Route path="/devices/download/:codename" element={<Download />} />
-          <Route path="/maintainership" element={<Maintainership />} />
-        </Routes>
+        <AnimatePresence>
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<Home />} />
+            <Route path="/devices" element={<Devices />} />
+            <Route path="/devices/download/:codename" element={<Download />} />
+            <Route path="/maintainership" element={<Maintainership />} />
+          </Routes>
+        </AnimatePresence>
       </main>
       <Footer />
     </>

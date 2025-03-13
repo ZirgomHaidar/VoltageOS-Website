@@ -1,4 +1,3 @@
-import HeroBG from "../assets/HeroBG.png"
 import voltage from "../assets/voltage.svg"
 import visual from "../assets/visual.svg"
 import { Link } from "react-router"
@@ -6,16 +5,36 @@ import Card from "../components/Card"
 import maintainers from "../assets/maintainers.png"
 import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards"
 import HorizontalScrollCarousel from "../components/Carousel"
+import { useEffect, useState } from "react"
+import {
+  DeviceInfo,
+  fetchAllDevicesData,
+} from "../components/services/VoltageDevices"
+import { motion } from "motion/react"
 
 function Home() {
+  const [latestDevices, setLatestDevices] = useState<DeviceInfo[]>([])
+
+  useEffect(() => {
+    const loadLatestDevices = async (): Promise<void> => {
+      try {
+        const data = await fetchAllDevicesData()
+        setLatestDevices(data)
+      } catch (err) {
+        console.error("Failed to fetch latest devices:", err)
+      }
+    }
+    loadLatestDevices()
+  }, [])
   return (
-    <>
-      <div className="relative mb-28 flex flex-col items-center justify-between gap-10 lg:flex-row">
-        <img
-          src={HeroBG}
-          alt="HeroBG"
-          className="absolute z-0 hidden max-h-screen w-full object-cover lg:block"
-        />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.2 } }}
+    >
+      <div
+        className={`mb-28 flex flex-col items-center justify-between gap-10 bg-center lg:flex-row lg:bg-[url(/src/assets/HeroBG.png)]`}
+      >
         <div className="z-10">
           <img src={visual} alt="mobile visual" className="h-100 lg:h-150" />
         </div>
@@ -26,7 +45,7 @@ function Home() {
           <img src={voltage} alt="voltage" className="h-12" />
           <h5>Powering Your Devices with Performance & Simplicity</h5>
           <Link to="/devices" className="">
-            <button className="text-Voltage-primary border-Voltage-200 w-fit cursor-pointer rounded-full border-2 px-6 py-2 font-medium">
+            <button className="bg-Voltage-primary w-fit cursor-pointer rounded-full px-6 py-2 font-medium text-black transition-transform hover:scale-105">
               Get voltage OS
             </button>
           </Link>
@@ -35,7 +54,7 @@ function Home() {
 
       <HorizontalScrollCarousel />
 
-      <div className="bg-Voltage-bgComponent mb-28 flex items-center justify-between px-12 py-14 md:px-24">
+      <div className="bg-Voltage-bgComponent mb-28 flex items-center justify-between rounded-4xl px-12 py-14 md:px-24">
         <div className="flex flex-col space-y-5">
           <h2 className="text-Voltage-textPrimary">Join Us as a Maintainer!</h2>
           <h5 className="text-Voltage-textSecondary leading-8 lg:max-w-150">
@@ -44,7 +63,7 @@ function Home() {
             welcome contributions from all skill levels. Together, let’s build
             something amazing!
           </h5>
-          <div className="flex flex-col gap-3 lg:flex-row">
+          <div className="flex flex-col gap-3 *:transition-transform *:hover:scale-105 lg:flex-row">
             <Link to="/devices" className="buttonPrimary">
               View Devices
             </Link>
@@ -65,16 +84,13 @@ function Home() {
           <h2 className="text-Voltage-textPrimary font-semibold">
             Latest added devices
           </h2>
-          <h5>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non
-            voluptatem, nihil sit ducimus consequatur inventore veniam ipsum.
-          </h5>
+          <h5>Check Out The Latest Releases</h5>
         </div>
         <div className="flex items-center justify-center">
           <div className="grid grid-cols-1 gap-9 md:grid-cols-2 xl:grid-cols-3">
-            <Card />
-            <Card />
-            <Card />
+            {latestDevices.slice(0, 3).map((deviceData, index) => (
+              <Card key={index} deviceData={deviceData} />
+            ))}
           </div>
         </div>
       </div>
@@ -110,21 +126,16 @@ function Home() {
             we don’t push for donations, even a small contribution helps us
             cover server costs and keep the project alive. Every bit counts!
           </span>
-          <span className="">
-            <Link to="#" className="">
-              <button className="text-Voltage-primary w-fit cursor-pointer rounded-full px-6 py-2 font-medium">
-                Donate Now
-              </button>
-            </Link>
-            <Link to="#" className="">
-              <button className="text-Voltage-primary border-Voltage-200 w-fit cursor-pointer rounded-full border-2 px-6 py-2 font-medium">
+          <span className="flex items-center justify-center md:justify-start">
+            <Link to="https://t.me/voltageos">
+              <button className="text-Voltage-primary border-Voltage-200 w-fit cursor-pointer rounded-full border-2 px-6 py-2 font-medium transition-transform hover:scale-105">
                 Join Our Community
               </button>
             </Link>
           </span>
         </div>
       </div>
-    </>
+    </motion.div>
   )
 }
 
