@@ -33,9 +33,9 @@ function Download() {
       <div className="bg-Voltage-bgComponent border-Voltage-borderComponent flex justify-between gap-12 rounded-4xl border-4 p-12 max-[830px]:flex-col">
         {/* left */}
         <img
-          src={`https://wiki.lineageos.org/images/devices/${data?.codename}.png`}
+          src={`https://github.com/VoltageOS/Website-Resource/blob/master/${data?.codename}.png?raw=true`}
           alt="device picture"
-          className="hidden min-w-60 object-contain min-[1180px]:block"
+          className="hidden max-w-72 object-contain min-[1180px]:block"
         />
         {/* middle */}
         <div className="flex grow flex-col items-start justify-between space-y-8 py-2">

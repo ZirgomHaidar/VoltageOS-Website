@@ -9,9 +9,9 @@ function Card({ deviceData }: { deviceData: DeviceInfo }) {
     <div className="bg-Voltage-bgComponent flex min-h-full w-[22rem] flex-col rounded-[32px] p-2 shadow-xl">
       <figure className="bg-Voltage-imgContainer flex items-center justify-center rounded-[22px] px-4 py-10">
         <img
-          src={`https://wiki.lineageos.org/images/devices/${deviceData.codename}.png`}
+          src={`https://github.com/VoltageOS/Website-Resource/blob/master/${deviceData.codename}.png?raw=true`}
           alt="Device Preview"
-          className="h-52"
+          className="h-52 object-cover"
         />
       </figure>
       <div className="flex grow flex-col justify-evenly px-4 py-4">

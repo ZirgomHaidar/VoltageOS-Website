@@ -36,7 +36,7 @@ function Home() {
         className={`mb-28 flex flex-col items-center justify-between gap-10 bg-center lg:flex-row lg:bg-[url(/src/assets/HeroBG.png)]`}
       >
         <div className="z-10">
-          <img src={visual} alt="mobile visual" className="h-100 lg:h-150" />
+          <img src={visual} alt="mobile visual" className="h-100 lg:h-170" />
         </div>
         <div className="z-10 flex flex-col items-center space-y-6 text-center lg:ml-6 lg:items-end lg:text-end">
           <h2 className="text-Voltage-200 text-4xl font-medium uppercase">
@@ -144,7 +144,7 @@ const testimonials = [
     quote:
       "I was skeptical at first, but VoltageOS turned my old phone into a beast! Highly recommend!",
     name: "Lorenzo",
-    desc: "Voltage OS users since 2018",
+    desc: "Voltage OS users since 2023",
   },
   {
     quote:
