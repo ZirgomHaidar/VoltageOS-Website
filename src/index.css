@@ -65,6 +65,18 @@ body {
   filter: blur(63.272727966308594px);
 }
 
-li::marker {
+.testimonials li::marker {
   content: "";
+}
+
+.markdown li {
+  @apply list-inside list-disc pl-2;
+}
+
+.noScrollBar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

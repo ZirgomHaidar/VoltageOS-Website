@@ -1,27 +1,17 @@
-import { motion, useTransform, useScroll } from "framer-motion"
-import { useRef } from "react"
 import selinux from "../assets/InfoGraphics.png"
 import sandbox from "../assets/sandbox.png"
 import aosp from "../assets/aosp.png"
 import { MdAndroid } from "react-icons/md"
 import { SiGrapheneos } from "react-icons/si"
+import { cn } from "../../libs/utils"
 
 const HorizontalScrollCarousel = () => {
-  const targetRef = useRef<HTMLDivElement | null>(null)
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  })
-
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-65%"])
-
   return (
-    <section ref={targetRef} className="mb-28 h-[200vh]">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-4">
-          {cards.map((card) => {
-            return <Card card={card} key={card.id} />
-          })}
-        </motion.div>
+    <section className="mb-28">
+      <div className="flex flex-col justify-center gap-4">
+        {cards.map((card) => {
+          return <Card card={card} key={card.id} />
+        })}
       </div>
     </section>
   )
@@ -33,15 +23,18 @@ const Card = ({ card }: { card: CardType }) => {
   return (
     <div
       key={card.id}
-      className="bg-Voltage-bgComponent border-Voltage-borderComponent relative flex flex-col-reverse items-center justify-between gap-8 overflow-hidden rounded-2xl border-4 p-4 md:w-120 md:p-8 lg:w-220 lg:flex-row lg:p-10 xl:w-300"
+      className={cn(
+        "bg-Voltage-bgComponent border-Voltage-borderComponent l flex flex-col-reverse items-center justify-between gap-8 overflow-hidden rounded-2xl border-4 p-4 md:p-8 lg:flex-row lg:p-10",
+        card.id === 2 ? "lg:flex-row-reverse" : "lg:flex-row",
+      )}
     >
-      <img src={card.picSrc} alt="pic" className="w-50 md:w-80 lg:w-100" />
-      <div className="w-65 space-y-6 lg:w-130">
+      <img src={card.picSrc} alt="pic" className="w-50 md:w-80" />
+      <div className="space-y-6">
         <h2 className="text-Voltage-textPrimary">{card.title}</h2>
         <h6 className="text-Voltage-textSecondary">{card.desc}</h6>
         <div className="w-fit rounded-2xl bg-black px-4 py-2">
           <span className="text-base">Powered By</span>
-          <span className="flex gap-3 text-3xl">
+          <span className="flex items-center gap-3 md:text-3xl">
             {card.Poweredby}{" "}
             {card.Poweredby === "android" ? (
               <MdAndroid className="size-10 fill-green-400" />

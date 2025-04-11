@@ -16,7 +16,7 @@ function Download() {
     window.scrollTo(0, 0)
     const loadDeviceData = async (): Promise<void> => {
       try {
-        const deviceData = await fetchDeviceData(params.codename!.slice(1))
+        const deviceData = await fetchDeviceData(params.codename as string)
         setData(deviceData)
       } catch {
         console.error("Failed to fetch device list. Please try again later.")

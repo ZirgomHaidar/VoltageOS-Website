@@ -4,16 +4,19 @@ import { Link } from "react-router"
 import Card from "../components/Card"
 import maintainers from "../assets/maintainers.png"
 import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards"
-import HorizontalScrollCarousel from "../components/Carousel"
 import { useEffect, useState } from "react"
 import {
   DeviceInfo,
   fetchAllDevicesData,
 } from "../components/services/VoltageDevices"
 import { motion } from "motion/react"
+import SpringModal from "../components/ui/SpringModal"
+import HorizontalScrollCarousel from "../components/Carousel"
 
 function Home() {
   const [latestDevices, setLatestDevices] = useState<DeviceInfo[]>([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [codename, setcodename] = useState<string>("")
 
   useEffect(() => {
     const loadLatestDevices = async (): Promise<void> => {
@@ -26,6 +29,21 @@ function Home() {
     }
     loadLatestDevices()
   }, [])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+  }, [isOpen])
+
+  const handleButtonClick = (value: string) => {
+    setcodename(value)
+    setIsOpen(true)
+    console.log("Button clicked with value:", value)
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -89,13 +107,17 @@ function Home() {
         <div className="flex items-center justify-center">
           <div className="grid grid-cols-1 gap-9 md:grid-cols-2 xl:grid-cols-3">
             {latestDevices.slice(0, 3).map((deviceData, index) => (
-              <Card key={index} deviceData={deviceData} />
+              <Card
+                key={index}
+                deviceData={deviceData}
+                onButtonClick={handleButtonClick}
+              />
             ))}
           </div>
         </div>
       </div>
 
-      <div className="mb-28 space-y-4">
+      <div className="testimonials mb-28 space-y-4">
         <div className="space-y-2 text-center">
           <h2 className="text-Voltage-textPrimary font-semibold">
             Testimonials
@@ -123,8 +145,7 @@ function Home() {
         <div className="flex max-w-100 flex-col space-y-4">
           <span>
             VoltageOS is a passion project built by enthusiasts like you. While
-            we don’t push for donations, even a small contribution helps us
-            cover server costs and keep the project alive. Every bit counts!
+            Every bit counts!
           </span>
           <span className="flex items-center justify-center md:justify-start">
             <Link to="https://t.me/voltageos">
@@ -135,6 +156,8 @@ function Home() {
           </span>
         </div>
       </div>
+
+      <SpringModal isOpen={isOpen} setIsOpen={setIsOpen} codename={codename} />
     </motion.div>
   )
 }

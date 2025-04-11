@@ -6,6 +6,7 @@ import {
   fetchAllDevicesData,
 } from "../components/services/VoltageDevices"
 import { motion } from "motion/react"
+import SpringModal from "../components/ui/SpringModal"
 
 function Devices() {
   const [devices, setDevices] = useState<DeviceInfo[]>([])
@@ -13,6 +14,8 @@ function Devices() {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isOpen, setIsOpen] = useState(false)
+  const [codename, setcodename] = useState<string>("")
 
   useEffect(() => {
     const loadDeviceData = async (): Promise<void> => {
@@ -29,6 +32,14 @@ function Devices() {
 
     loadDeviceData()
   }, [])
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+  }, [isOpen])
 
   // Handle search input changes
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -59,6 +70,12 @@ function Devices() {
   // Debug info to check values
   console.log("Total devices:", devices.length)
   console.log("Filtered devices:", filteredDevices.length)
+
+  const handleButtonClick = (value: string) => {
+    setcodename(value)
+    setIsOpen(true)
+    console.log("Button clicked with value:", value)
+  }
 
   return (
     <motion.div
@@ -99,7 +116,11 @@ function Devices() {
             transition={{ duration: 0.3 }}
           >
             {filteredDevices.map((deviceData, index) => (
-              <Card key={index} deviceData={deviceData} />
+              <Card
+                key={index}
+                deviceData={deviceData}
+                onButtonClick={handleButtonClick}
+              />
             ))}
           </motion.div>
         </div>
@@ -116,6 +137,8 @@ function Devices() {
       <div className="mt-10 text-center text-gray-500">
         Showing {filteredDevices.length} of {devices.length} devices
       </div>
+
+      <SpringModal isOpen={isOpen} setIsOpen={setIsOpen} codename={codename} />
     </motion.div>
   )
 }

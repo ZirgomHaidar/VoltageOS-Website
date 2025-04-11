@@ -4,19 +4,24 @@ import { LuNotepadText } from "react-icons/lu"
 import { DeviceInfo } from "./services/VoltageDevices"
 import { motion } from "motion/react"
 
-function Card({ deviceData }: { deviceData: DeviceInfo }) {
+interface CardProps {
+  onButtonClick: (value: string) => void
+  deviceData: DeviceInfo
+}
+
+const Card: React.FC<CardProps> = ({ deviceData, onButtonClick }) => {
   return (
-    <div className="bg-Voltage-bgComponent flex min-h-full w-[22rem] flex-col rounded-[32px] p-2 shadow-xl">
+    <div className="bg-Voltage-bgComponent border-Voltage-borderComponent/50 flex min-h-full flex-col rounded-[32px] border-2 p-2 min-[420px]:w-[22rem] md:w-[22rem]">
       <figure className="bg-Voltage-imgContainer flex items-center justify-center rounded-[22px] px-4 py-10">
         <img
           src={`https://github.com/VoltageOS/Website-Resource/blob/master/${deviceData.codename}.png?raw=true`}
           alt="Device Preview"
-          className="h-52 object-cover"
+          className="h-52 max-w-[20rem] object-cover"
         />
       </figure>
-      <div className="flex grow flex-col justify-evenly px-4 py-4">
+      <div className="flex grow flex-col justify-between px-4 py-4">
         <div className="space-y-2 pb-6">
-          <h4 className="text-Voltage-textPrimary">
+          <h4 className="text-Voltage-textPrimary w-[16rem]">
             {deviceData.oem + " " + deviceData.device}
           </h4>
           <h6>{deviceData.codename}</h6>
@@ -40,20 +45,17 @@ function Card({ deviceData }: { deviceData: DeviceInfo }) {
           </h6>
         </div>
         <motion.div
-          className="*:text-Voltage-primary flex gap-4 pt-6 *:flex *:grow *:items-center *:justify-center *:gap-2 *:transition-transform *:hover:scale-105 *:active:scale-95"
+          className="*:text-Voltage-primary flex gap-4 pt-6 *:flex *:grow *:cursor-pointer *:items-center *:justify-center *:gap-2 *:transition-transform *:hover:scale-105 *:active:scale-95"
           whileInView={
             window.innerWidth < 768
               ? { scale: 1.05, transition: { delay: 0.3 } }
               : {}
           }
         >
-          <Link
-            to={`https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/15-qpr1/changelog_${deviceData.codename}.txt`}
-            className=""
-          >
+          <button onClick={() => onButtonClick(deviceData.codename)}>
             <LuNotepadText /> Changelogs
-          </Link>
-          <Link to={`/devices/download/:${deviceData.codename}`} className="">
+          </button>
+          <Link to={`/devices/download/${deviceData.codename}`}>
             <MdOutlineFileDownload />
             Download
           </Link>
