@@ -40,7 +40,7 @@ const SpringModal = ({
   const fetchChangelog = async () => {
     try {
       const response = await fetch(
-        `https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/15-qpr1/changelog_${codename}.txt`,
+        `https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/15-qpr2/changelog_${codename}.txt`,
       )
       if (!response.ok) {
         throw new Error("Network response was not ok")

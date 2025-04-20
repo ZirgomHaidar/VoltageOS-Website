@@ -21,7 +21,7 @@ export interface DeviceInfo {
 export const fetchDeviceList = async (): Promise<string[]> => {
   try {
     const response = await axios.get<string>(
-      "https://raw.githubusercontent.com/VoltageOS/vendor_voltage/refs/heads/15-qpr1/voltage.devices",
+      "https://raw.githubusercontent.com/VoltageOS/vendor_voltage/refs/heads/15-qpr2/voltage.devices",
     )
 
     // Parse the device list, ignoring lines that start with "#"
@@ -42,7 +42,7 @@ export const fetchDeviceList = async (): Promise<string[]> => {
 export const fetchDeviceData = async (device: string): Promise<DeviceInfo> => {
   try {
     const response = await axios.get(
-      `https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/15-qpr1/${device}.json`,
+      `https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/15-qpr2/${device}.json`,
     )
     return { codename: device, ...response.data.response[0] }
   } catch (error) {
