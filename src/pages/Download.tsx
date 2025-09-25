@@ -49,22 +49,16 @@ function Download() {
               <h2>{data?.codename}</h2>
             </div>
             <div className="">
+              <h5>Maintainer</h5>
+              <h2>{data?.maintainer}</h2>
+            </div>
+            <div className="">
               <h5>Version</h5>
               <h2>{data?.version}</h2>
             </div>
             <div className="">
               <h5>Size</h5>
               <h2>{((data?.size || 0) / 1024 / 1024 / 1024).toFixed(2)} GB</h2>
-            </div>
-          </div>
-          <div className="bg-Voltage-borderComponent inline-flex w-full items-center justify-between gap-4 rounded-2xl p-4 max-[830px]:flex-wrap">
-            <div className="inline-flex items-center gap-4">
-              <img
-                src={`https://avatars.githubusercontent.com/${data?.maintainer}`}
-                alt="MP"
-                className="size-14 rounded-full bg-white"
-              />
-              <h3>{data?.maintainer}</h3>
             </div>
           </div>
         </div>
@@ -113,7 +107,7 @@ const BuildCard = ({
           <MdArrowOutward className="size-6" />
         </motion.div>
         <div className="mt-6 [&_p]:tracking-wide">
-          <h3 className="mb-6">{prev ? "Previous builds" : "Latest Builds"}</h3>
+          <h3 className="mb-6">{prev ? "Previous builds" : "Latest Build"}</h3>
           {!prev ? (
             <div className="">
               <p>Latest Version: {version}</p>
