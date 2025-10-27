@@ -28,6 +28,7 @@ export const fetchDeviceList = async (): Promise<string[]> => {
     return response.data
       .split("\n")
       .filter((line) => line.trim() && !line.trim().startsWith("#"))
+      .map((line) => line.split(":")[0])
   } catch (error) {
     console.error("Error fetching device list:", error)
     throw new Error("Failed to fetch device list")
