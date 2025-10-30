@@ -107,7 +107,7 @@ const BuildCard = ({
           <MdArrowOutward className="size-6" />
         </motion.div>
         <div className="mt-6 [&_p]:tracking-wide">
-          <h3 className="mb-6">{prev ? "Previous builds" : "Latest Build"}</h3>
+          <h3 className="mb-6">{prev ? "Previous builds" : "Latest build"}</h3>
           {!prev ? (
             <div className="">
               <p>Latest Version: {version}</p>

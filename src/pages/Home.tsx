@@ -64,7 +64,7 @@ function Home() {
           <h5>Powering Your Devices with Performance & Simplicity</h5>
           <Link to="/devices" className="">
             <button className="bg-Voltage-primary w-fit cursor-pointer rounded-full px-6 py-2 font-medium text-black transition-transform hover:scale-105">
-              Get voltage OS
+              Get VoltageOS
             </button>
           </Link>
         </div>
@@ -100,9 +100,9 @@ function Home() {
       <div className="mb-28 space-y-6">
         <div className="space-y-2 text-center">
           <h2 className="text-Voltage-textPrimary font-semibold">
-            Latest added devices
+            Latest Releases
           </h2>
-          <h5>Check Out The Latest Releases</h5>
+          <h5>Check out the latest releases</h5>
         </div>
         <div className="flex items-center justify-center">
           <div className="grid grid-cols-1 gap-9 md:grid-cols-2 xl:grid-cols-3">
@@ -140,12 +140,12 @@ function Home() {
 
       <div className="bg-Voltage-bgComponent flex flex-col items-center justify-evenly gap-4 rounded-4xl p-12 text-center min-[960px]:mx-10 md:flex-row md:text-left">
         <h2 className="max-w-100 font-bold tracking-wide">
-          Support VoltageOS Help Us Keep Innovating!
+          Support VoltageOS – Help Us Keep Innovating!
         </h2>
         <div className="flex max-w-100 flex-col space-y-4">
           <span>
-            VoltageOS is a passion project built by enthusiasts like you. While
-            Every bit counts!
+            VoltageOS is a passion project built by enthusiasts like you —
+            every bit counts!
           </span>
           <span className="flex items-center justify-center md:justify-start">
             <Link to="https://t.me/voltageos">
@@ -167,19 +167,19 @@ const testimonials = [
     quote:
       "I was skeptical at first, but VoltageOS turned my old phone into a beast! Highly recommend!",
     name: "Lorenzo",
-    desc: "Voltage OS users since 2023",
+    desc: "VoltageOS user since 2023",
   },
   {
     quote:
       "As someone who isn’t tech-savvy, I was worried about installing a custom ROM. But VoltageOS made the process so easy, and the results are amazing!",
     name: "William",
-    desc: "Voltage OS users since 2021",
+    desc: "VoltageOS user since 2021",
   },
   {
     quote:
       "VoltageOS completely changed my perception of custom ROMs. It’s stable, fast, and packed with features I didn’t even know I needed!",
     name: "Edgar",
-    desc: "Voltage OS users since 2022",
+    desc: "VoltageOS user since 2022",
   },
 ]
 

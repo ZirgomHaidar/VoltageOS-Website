@@ -87,7 +87,7 @@ function Devices() {
         <h1 className="mb-8 font-bold tracking-wide">Devices</h1>
         <h3>Checkout list of devices here and download it for your device</h3>
         <h6>
-          Fore more info join{" "}
+          For more info join{" "}
           <Link to="https://t.me/voltageos">
             <b className="underline-offset-8 transition-all hover:text-xl hover:underline">
               VoltageOS Support

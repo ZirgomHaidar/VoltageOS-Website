@@ -68,14 +68,14 @@ const cards: CardType[] = [
     title: "SandBox",
     id: 2,
     picSrc: sandbox,
-    desc: "VoltageOS provides a sandboxed Google Play environment, restricting its access and privileges. This ensures near-complete compatibility with the Google Play ecosystem while prioritizing user privacy and security. ",
+    desc: "VoltageOS provides a sandboxed Google Play environment, restricting its access and privileges. This ensures near-complete compatibility with the Google Play ecosystem while prioritizing user privacy and security.",
     Poweredby: "GrapheneOS",
   },
   {
     title: "Based On AOSP",
     id: 3,
     picSrc: aosp,
-    desc: "built on the open-source Android Open Source Project. AOSP offers a pure Android experience, free from bloatware and vendor customizations, ensuring a smooth, secure, and customizable operating system.",
+    desc: "Built on the open-source Android Open Source Project. AOSP offers a pure Android experience, free from bloatware and vendor customizations, ensuring a smooth, secure, and customizable operating system.",
     Poweredby: "android",
   },
 ]
