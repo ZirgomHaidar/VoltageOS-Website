@@ -110,7 +110,7 @@ function Devices() {
       ) : (
         <div className="flex items-center justify-center">
           <motion.div
-            className="grid place-items-center gap-9 md:grid-cols-2 xl:grid-cols-3"
+            className="flex flex-wrap justify-center gap-9"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}

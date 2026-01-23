@@ -31,15 +31,14 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden items-center space-x-4 md:flex">
-            {navigation.map((item) => ( 
+            {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`flex items-center rounded-full px-4 py-2 text-xl transition-all duration-200 ${
-                  isActive(item.href)
-                    ? "bg-Voltage-buttonPrimary text-black"
-                    : "text-Voltage-textPrimary hover:bg-Voltage-buttonPrimary hover:text-black"
-                } `}
+                className={`flex items-center rounded-full px-4 py-2 text-xl transition-all duration-200 ${isActive(item.href)
+                  ? "bg-Voltage-buttonPrimary text-black"
+                  : "text-Voltage-textPrimary hover:bg-Voltage-buttonPrimary hover:text-black"
+                  } `}
                 aria-current={isActive(item.href) ? "page" : undefined}
               >
                 {item.name}
@@ -74,9 +73,8 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`transition-all duration-300 ease-in-out md:hidden ${
-          isOpen ? "max-h-64 opacity-100" : "max-h-0 overflow-hidden opacity-0"
-        }`}
+        className={`transition-all duration-300 ease-in-out md:hidden ${isOpen ? "max-h-64 opacity-100" : "max-h-0 overflow-hidden opacity-0"
+          }`}
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pt-2 pb-3">
@@ -85,11 +83,10 @@ const Navbar = () => {
               key={item.name}
               to={item.href}
               onClick={() => setIsOpen(false)}
-              className={`flex w-full items-center rounded-lg px-3 py-2 text-base transition-all duration-200 ${
-                isActive(item.href)
-                  ? "bg-Voltage-buttonPrimary text-black"
-                  : "text-Voltage-textPrimary hover:bg-Voltage-buttonPrimary hover:text-black"
-              } `}
+              className={`flex w-full items-center rounded-lg px-3 py-2 text-base transition-all duration-200 ${isActive(item.href)
+                ? "bg-Voltage-buttonPrimary text-black"
+                : "text-Voltage-textPrimary hover:bg-Voltage-buttonPrimary hover:text-black"
+                } `}
               aria-current={isActive(item.href) ? "page" : undefined}
             >
               {item.name}

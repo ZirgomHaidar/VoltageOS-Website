@@ -1,8 +1,7 @@
 import voltage from "../assets/voltage.svg"
-import visual from "../assets/visual.svg"
 import { Link } from "react-router"
 import Card from "../components/Card"
-import maintainers from "../assets/maintainers.png"
+import maintainers from "../assets/maintainers.svg"
 import { InfiniteMovingCards } from "../components/ui/infinite-moving-cards"
 import { useEffect, useState } from "react"
 import {
@@ -11,7 +10,13 @@ import {
 } from "../components/services/VoltageDevices"
 import { motion } from "motion/react"
 import SpringModal from "../components/ui/SpringModal"
-import HorizontalScrollCarousel from "../components/Carousel"
+import Features from "../components/Features"
+import DeviceCarousel from "../components/DeviceCarousel"
+import { BrandCarousel } from "../components/ui/BrandCarousel"
+import { AiOutlineArrowRight } from "react-icons/ai"
+import { BiLogoTelegram } from "react-icons/bi"
+import { SiSourceforge } from "react-icons/si"
+import SF_Award from "../assets/award_sf.svg"
 
 function Home() {
   const [latestDevices, setLatestDevices] = useState<DeviceInfo[]>([])
@@ -51,49 +56,47 @@ function Home() {
       exit={{ opacity: 0, transition: { duration: 0.2 } }}
     >
       <div
-        className={`mb-28 flex flex-col items-center justify-between gap-10 bg-center lg:flex-row lg:bg-[url(/src/assets/HeroBG.png)]`}
+        className="mb-28 flex flex-col items-center justify-between gap-10"
       >
-        <div className="z-10">
-          <img src={visual} alt="mobile visual" className="h-100 lg:h-170" />
-        </div>
-        <div className="z-10 flex flex-col items-center space-y-6 text-center lg:ml-6 lg:items-end lg:text-end">
-          <h2 className="text-Voltage-200 text-4xl font-medium uppercase">
+        <div className="flex justify-center items-center gap-2 w-fit cursor-pointer rounded-full px-6 py-3 transition-transform hover:scale-105 bg-radial from-[#34322D] from-0% to-[#141310]to-60% border-2 border-Voltage-100/20"><img src={SF_Award}></img>100,000+ Downloads</div>
+        <div className="z-10 flex flex-col items-center space-y-8 text-center">
+          <h2 className="text-Voltage-200 text-4xl font-medium">
             Welcome to the
           </h2>
           <img src={voltage} alt="voltage" className="h-12" />
           <h5>Powering Your Devices with Performance & Simplicity</h5>
           <Link to="/devices" className="">
-            <button className="bg-Voltage-primary w-fit cursor-pointer rounded-full px-6 py-2 font-medium text-black transition-transform hover:scale-105">
-              Get VoltageOS
+            <button className="bg-Voltage-primary flex justify-center items-center gap-2 w-fit cursor-pointer rounded-full px-6 py-3 font-medium text-black transition-transform hover:scale-105">
+              Get VoltageOS <SiSourceforge className="text-2xl" />
             </button>
           </Link>
         </div>
+        <DeviceCarousel />
+        <div className="text-center mx-6 text-neutral-500">We've got your back with all the big manufacturers brands!</div>
+        <BrandCarousel />
+
       </div>
 
-      <HorizontalScrollCarousel />
 
-      <div className="bg-Voltage-bgComponent mb-28 flex items-center justify-between rounded-4xl px-12 py-14 md:px-24">
+      <Features />
+
+      <div className="mb-28 flex items-center gap-10 justify-center rounded-4xl px-12 py-14 md:px-24">
         <div className="flex flex-col space-y-5">
           <h2 className="text-Voltage-textPrimary">Join Us as a Maintainer!</h2>
-          <h5 className="text-Voltage-textSecondary leading-8 lg:max-w-150">
+          <h5 className="text-Voltage-textSecondary leading-8 xl:max-w-120">
             We’re always looking for passionate developers to help us grow
             VoltageOS. Whether you’re experienced or just starting out, we
             welcome contributions from all skill levels. Together, let’s build
             something amazing!
           </h5>
-          <div className="flex flex-col gap-3 *:transition-transform *:hover:scale-105 lg:flex-row">
-            <Link to="/devices" className="buttonPrimary">
-              View Devices
-            </Link>
-            <Link to="/maintainership" className="buttonSecondary">
-              Apply for Maintainership
-            </Link>
-          </div>
+          <Link to="/maintainership" className="buttonSecondary flex justify-center items-center gap-3 sm:max-w-70">
+            Apply for Maintainership <AiOutlineArrowRight />
+          </Link>
         </div>
         <img
           src={maintainers}
           alt="device maintainer"
-          className="hidden lg:block"
+          className="hidden lg:block md:w-120 xl:w-150"
         />
       </div>
 
@@ -104,16 +107,14 @@ function Home() {
           </h2>
           <h5>Check out the latest releases</h5>
         </div>
-        <div className="flex items-center justify-center">
-          <div className="grid grid-cols-1 gap-9 md:grid-cols-2 xl:grid-cols-3">
-            {latestDevices.slice(0, 3).map((deviceData, index) => (
-              <Card
-                key={index}
-                deviceData={deviceData}
-                onButtonClick={handleButtonClick}
-              />
-            ))}
-          </div>
+        <div className="flex flex-wrap justify-center gap-9">
+          {latestDevices.slice(0, 3).map((deviceData, index) => (
+            <Card
+              key={index}
+              deviceData={deviceData}
+              onButtonClick={handleButtonClick}
+            />
+          ))}
         </div>
       </div>
 
@@ -138,19 +139,23 @@ function Home() {
         />
       </div>
 
-      <div className="bg-Voltage-bgComponent flex flex-col items-center justify-evenly gap-4 rounded-4xl p-12 text-center min-[960px]:mx-10 md:flex-row md:text-left">
-        <h2 className="max-w-100 font-bold tracking-wide">
+      <div className="flex flex-col items-center justify-evenly gap-4 rounded-4xl p-12 text-center min-[960px]:mx-10 md:text-left">
+        <h2 className="font-bold tracking-wide text-center">
           Support VoltageOS – Help Us Keep Innovating!
         </h2>
-        <div className="flex max-w-100 flex-col space-y-4">
+        <div className="flex flex-col w-max-200 space-y-4 text-center">
           <span>
-            VoltageOS is a passion project built by enthusiasts like you —
-            every bit counts!
+            VoltageOS is a passion project built by enthusiasts like you. While we don’t push for donations, even a small contribution helps us cover server costs and keep the project alive. Every bit counts!
           </span>
-          <span className="flex items-center justify-center md:justify-start">
+          <span className="flex items-center justify-center flex-col sm:flex-row gap-6">
+            {/* <Link to="https://t.me/voltageos"> */}
+            {/*   <button className="flex items-center gap-2 text-Voltage-primary w-fit cursor-pointer rounded-full px-6 py-2 font-medium transition-transform hover:scale-105"> */}
+            {/*     Donate Now <BiSolidDonateHeart className="text-xl" /> */}
+            {/*   </button> */}
+            {/* </Link> */}
             <Link to="https://t.me/voltageos">
-              <button className="text-Voltage-primary border-Voltage-200 w-fit cursor-pointer rounded-full border-2 px-6 py-2 font-medium transition-transform hover:scale-105">
-                Join Our Community
+              <button className="flex items-center gap-2 bg-Voltage-buttonPrimary text-black w-fit cursor-pointer rounded-full px-6 py-2 font-medium transition-transform hover:scale-105">
+                Join Our Community <BiLogoTelegram />
               </button>
             </Link>
           </span>

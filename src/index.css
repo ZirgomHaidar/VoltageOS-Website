@@ -30,16 +30,16 @@ body {
   --color-Voltage-textSecondary: #fffce5;
   --color-Voltage-100: #fff8cc;
   --color-Voltage-200: #fff199;
-  --color-Voltage-textPrimary: #ffeb66;
+  --color-Voltage-textPrimary: #E8C704;
   --color-Voltage-400: #ffe433;
-  --color-Voltage-primary: #ffde00;
+  --color-Voltage-primary: #F8E210;
   --color-Voltage-600: #c2a800;
   --color-Voltage-buttonHover: #8a7700;
-  --color-Voltage-buttonPrimary: #f9eb93;
+  --color-Voltage-buttonPrimary: #E8C704;
   --color-Voltage-borderComponent: #4d4200;
-  --color-Voltage-bgComponent: #131209;
+  --color-Voltage-bgComponent: #141310;
   --color-Voltage-textInfo: #979380;
-  --color-Voltage-imgContainer: #18170b;
+  --color-Voltage-imgContainer: #18170C;
 }
 
 .active {
@@ -47,7 +47,7 @@ body {
 }
 
 .buttonPrimary {
-  @apply bg-Voltage-primary rounded-full px-4 py-2 text-center text-black;
+  @apply bg-Voltage-buttonPrimary rounded-2xl px-4 py-2 text-center;
 }
 
 .buttonSecondary {
@@ -79,4 +79,14 @@ body {
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+@keyframes scroll-brand-right {
+    0% { transform: translateX(-12.5%); }
+    100% { transform: translateX(0%); }
+}
+
+@keyframes scroll-brand-left {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-12.5%); }
 }

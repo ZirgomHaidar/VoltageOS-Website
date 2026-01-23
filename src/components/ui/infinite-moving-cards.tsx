@@ -91,11 +91,11 @@ export const InfiniteMovingCards = ({
           >
             <blockquote>
               <BsQuote className="text-Voltage-primary z-20 text-4xl" />
-              <span className="relative z-20 leading-[1.6] text-gray-100">
+              <span className="relative z-20 leading-[1.6] text-gray-100 text-2xl">
                 {item.quote}
               </span>
               <div className="relative z-20 mt-6 flex flex-row items-center">
-                <div className="mr-3 size-12 rounded-full bg-white" />
+                <div className="mr-3 size-12 rounded-full bg-Voltage-600" />
                 <span className="flex flex-col gap-1">
                   <span className="text-Voltage-primary text-sm">
                     {item.name}

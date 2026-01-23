@@ -13,11 +13,10 @@ function App() {
     <>
       <Navbar />
       <main
-        className={`mx-4 my-10 min-h-screen md:my-6 lg:my-8 xl:my-16 ${
-          navigator.userAgent.includes("Firefox")
+        className={`mx-4 my-10 min-h-screen md:my-6 lg:my-8 xl:my-16 ${navigator.userAgent.includes("Firefox")
             ? "xl:mx-20"
             : "xl:mx-10 2xl:mx-64"
-        }`}
+          }`}
       >
         <AnimatePresence>
           <Routes location={location} key={location.pathname}>

@@ -57,7 +57,7 @@ function Maintainership() {
             className="grow text-center text-xl"
           >
             <motion.button
-              className="buttonPrimary w-full cursor-pointer py-16"
+              className="buttonPrimary text-black w-full cursor-pointer py-16"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.96 }}
             >
