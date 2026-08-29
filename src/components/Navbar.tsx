@@ -1,96 +1,38 @@
-import { useState } from "react"
-import { Link, useLocation } from "react-router"
-import { IoMdClose } from "react-icons/io"
-import { HiMenuAlt3 } from "react-icons/hi"
-import voltage from "../assets/voltage.svg"
+import { NavLink } from "react-router"
+import { cn } from "../lib/utils"
+
+const navigation = [
+  { name: "Devices", href: "/devices" },
+  { name: "Maintainership", href: "/maintainership" },
+]
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const location = useLocation()
-
-  const navigation = [
-    { name: "Devices", href: "/devices" },
-    { name: "Maintainership", href: "/maintainership" },
-  ]
-
-  const isActive = (path: string) => location.pathname === path
-
   return (
-    <nav className="z-50 lg:my-4">
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo Section */}
-          <Link
-            to="/"
-            className="flex items-center transition-opacity duration-200 hover:opacity-80"
-            aria-label="Home"
-            onClick={() => setIsOpen(false)}
-          >
-            <img src={voltage} alt="VoltageOS" className="w-40 lg:w-fit" />
-          </Link>
+    <nav className="fixed inset-x-0 top-4 z-50 px-4 sm:top-[74px]">
+      <div className="bg-nav-surface rounded-nav mx-auto flex h-[64px] w-full max-w-[852px] items-center justify-between pr-3 pl-4 sm:h-[78.966px] sm:pr-[24px] sm:pl-[28.26px]">
+        <NavLink
+          to="/"
+          className="text-nav-text-active text-[15px] leading-[1.2] font-bold tracking-[-0.03em] whitespace-nowrap sm:text-[16.629px]"
+        >
+          Voltage OS
+        </NavLink>
 
-          {/* Desktop Navigation */}
-          <div className="hidden items-center space-x-4 md:flex">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`flex items-center rounded-full px-4 py-2 text-xl transition-all duration-200 ${isActive(item.href)
-                  ? "bg-Voltage-buttonPrimary text-black"
-                  : "text-Voltage-textPrimary hover:bg-Voltage-buttonPrimary hover:text-black"
-                  } `}
-                aria-current={isActive(item.href) ? "page" : undefined}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            className="hover:bg-Voltage-borderComponent inline-flex items-center justify-center rounded-md p-2 text-gray-700 focus:outline-none focus:ring-inset md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-            aria-label="Main menu"
-          >
-            <span className="sr-only">Open main menu</span>
-            {isOpen ? (
-              <IoMdClose
-                className="fill-Voltage-primary block size-8"
-                aria-hidden="true"
-              />
-            ) : (
-              <HiMenuAlt3
-                className="fill-Voltage-primary block size-8"
-                aria-hidden="true"
-              />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={`transition-all duration-300 ease-in-out md:hidden ${isOpen ? "max-h-64 opacity-100" : "max-h-0 overflow-hidden opacity-0"
-          }`}
-        id="mobile-menu"
-      >
-        <div className="space-y-1 px-2 pt-2 pb-3">
+        <div className="flex items-center gap-[5px]">
           {navigation.map((item) => (
-            <Link
+            <NavLink
               key={item.name}
               to={item.href}
-              onClick={() => setIsOpen(false)}
-              className={`flex w-full items-center rounded-lg px-3 py-2 text-base transition-all duration-200 ${isActive(item.href)
-                ? "bg-Voltage-buttonPrimary text-black"
-                : "text-Voltage-textPrimary hover:bg-Voltage-buttonPrimary hover:text-black"
-                } `}
-              aria-current={isActive(item.href) ? "page" : undefined}
+              className={({ isActive }) =>
+                cn(
+                  "inline-flex h-[34px] items-center rounded-full px-3 text-[14px] leading-[1.2] font-medium tracking-[-0.03em] whitespace-nowrap transition-colors sm:h-[38px] sm:px-4 sm:text-[16.629px]",
+                  isActive
+                    ? "bg-nav-pill text-nav-text-active"
+                    : "text-nav-text hover:text-nav-text-active",
+                )
+              }
             >
               {item.name}
-            </Link>
+            </NavLink>
           ))}
         </div>
       </div>

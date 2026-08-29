@@ -1,92 +1,28 @@
 @import "tailwindcss";
-@config "../tailwind.config.js";
-
-body {
-  font-family: "Excon", sans-serif;
-  h1 {
-    @apply text-5xl lg:text-7xl;
-  }
-  h2 {
-    @apply text-3xl lg:text-4xl;
-  }
-  h3 {
-    @apply text-xl lg:text-3xl;
-  }
-  h4 {
-    @apply text-2xl;
-  }
-  h5 {
-    @apply text-xl;
-  }
-  h6 {
-    @apply text-base lg:text-lg;
-  }
-  p {
-    @apply text-base;
-  }
-}
 
 @theme {
-  --color-Voltage-textSecondary: #fffce5;
-  --color-Voltage-100: #fff8cc;
-  --color-Voltage-200: #fff199;
-  --color-Voltage-textPrimary: #E8C704;
-  --color-Voltage-400: #ffe433;
-  --color-Voltage-primary: #F8E210;
-  --color-Voltage-600: #c2a800;
-  --color-Voltage-buttonHover: #8a7700;
-  --color-Voltage-buttonPrimary: #E8C704;
-  --color-Voltage-borderComponent: #4d4200;
-  --color-Voltage-bgComponent: #141310;
-  --color-Voltage-textInfo: #979380;
-  --color-Voltage-imgContainer: #18170C;
+  --font-inter: "Inter", sans-serif;
+
+  --color-page: #151515;
+  --color-nav-surface: rgba(255, 255, 255, 0.05);
+  --color-nav-pill: #333333;
+  --color-nav-text: #707070;
+  --color-nav-text-active: #ffffff;
+
+  --radius-nav: 16.624px;
 }
 
-.active {
-  @apply text-Voltage-primary;
-}
-
-.buttonPrimary {
-  @apply bg-Voltage-buttonPrimary rounded-2xl px-4 py-2 text-center;
-}
-
-.buttonSecondary {
-  @apply bg-Voltage-bgComponent text-Voltage-textPrimary border-Voltage-400 rounded-full border px-4 py-2 text-center;
-}
-
-.markerstyle li::marker {
-  content: "- ";
-  font-size: 1.2em;
-}
-
-.circular-gradient {
-  border-radius: 9999px;
-  background: #ffde0050;
-  filter: blur(63.272727966308594px);
-}
-
-.testimonials li::marker {
-  content: "";
-}
-
-.markdown li {
-  @apply list-inside list-disc pl-2;
-}
-
-.noScrollBar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
+@layer base {
+  html {
+    background-color: var(--color-page);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
-}
 
-@keyframes scroll-brand-right {
-    0% { transform: translateX(-12.5%); }
-    100% { transform: translateX(0%); }
-}
-
-@keyframes scroll-brand-left {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-12.5%); }
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-inter);
+    color: var(--color-nav-text-active);
+  }
 }
