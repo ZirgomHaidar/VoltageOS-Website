@@ -1,15 +1,28 @@
 @import "tailwindcss";
 
 @theme {
+  /* Geist is the product face; Inter backs it up and drives the navbar. */
+  --font-geist: "Geist", "Inter", sans-serif;
   --font-inter: "Inter", sans-serif;
 
   --color-page: #151515;
-  --color-nav-surface: rgba(255, 255, 255, 0.05);
-  --color-nav-pill: #333333;
-  --color-nav-text: #707070;
-  --color-nav-text-active: #ffffff;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-surface-active: #333333;
+  --color-hairline: #333333;
 
-  --radius-nav: 16.624px;
+  --color-ink: #ffffff;
+  --color-ink-muted: #727272;
+  --color-ink-nav: #707070;
+  --color-ink-faint: #3c3c3c;
+  --color-ink-invert: #000000;
+
+  --text-hero: 88.132px;
+  --text-title: 24.112px;
+  --text-nav: 16.629px;
+  --text-meta: 15.452px;
+
+  --radius-surface: 16.624px;
+  --radius-surface-inner: 10px;
 }
 
 @layer base {
@@ -20,9 +33,17 @@
     text-rendering: optimizeLegibility;
   }
 
+  /*
+   * line-height 1.2 and letter-spacing -0.03em hold for every text node in
+   * the design (verified at 88.132 / 24.112 / 16.629 / 15.452px), so they
+   * live here once instead of on each utility.
+   */
   body {
     min-height: 100dvh;
-    font-family: var(--font-inter);
-    color: var(--color-nav-text-active);
+    font-family: var(--font-geist);
+    font-size: var(--text-nav);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--color-ink);
   }
 }
