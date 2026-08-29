@@ -1,5 +1,8 @@
 import axios from "axios"
 
+/** Upstream branch serving device metadata. Bump on each Android release. */
+export const BRANCH = "17"
+
 export interface DeviceInfo {
   codename: string
   maintainer: string
@@ -21,7 +24,7 @@ export interface DeviceInfo {
 export const fetchDeviceList = async (): Promise<string[]> => {
   try {
     const response = await axios.get<string>(
-      "https://raw.githubusercontent.com/VoltageOS/vendor_voltage/refs/heads/17/voltage.devices",
+      `https://raw.githubusercontent.com/VoltageOS/vendor_voltage/refs/heads/${BRANCH}/voltage.devices`,
     )
 
     // Parse the device list, ignoring lines that start with "#"
@@ -43,7 +46,7 @@ export const fetchDeviceList = async (): Promise<string[]> => {
 export const fetchDeviceData = async (device: string): Promise<DeviceInfo> => {
   try {
     const response = await axios.get(
-      `https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/17/${device}.json`,
+      `https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/${BRANCH}/${device}.json`,
     )
     return { codename: device, ...response.data.response[0] }
   } catch (error) {

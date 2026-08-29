@@ -46,7 +46,6 @@ function Home() {
   const handleButtonClick = (value: string) => {
     setcodename(value)
     setIsOpen(true)
-    console.log("Button clicked with value:", value)
   }
 
   return (
@@ -58,7 +57,7 @@ function Home() {
       <div
         className="mb-28 flex flex-col items-center justify-between gap-10"
       >
-        <div className="flex justify-center items-center gap-2 w-fit cursor-pointer rounded-full px-6 py-3 transition-transform hover:scale-105 bg-radial from-[#34322D] from-0% to-[#141310]to-60% border-2 border-Voltage-100/20"><img src={SF_Award}></img>100,000+ Downloads</div>
+        <div className="flex justify-center items-center gap-2 w-fit cursor-pointer rounded-full px-6 py-3 transition-transform hover:scale-105 bg-radial from-[#34322D] from-0% to-[#141310] to-60% border-2 border-Voltage-100/20"><img src={SF_Award} alt="SourceForge award" />100,000+ Downloads</div>
         <div className="z-10 flex flex-col items-center space-y-8 text-center">
           <h2 className="text-Voltage-200 text-4xl font-medium">
             Welcome to the
@@ -108,9 +107,9 @@ function Home() {
           <h5>Check out the latest releases</h5>
         </div>
         <div className="flex flex-wrap justify-center gap-9">
-          {latestDevices.slice(0, 3).map((deviceData, index) => (
+          {latestDevices.slice(0, 3).map((deviceData) => (
             <Card
-              key={index}
+              key={deviceData.codename}
               deviceData={deviceData}
               onButtonClick={handleButtonClick}
             />

@@ -17,7 +17,7 @@ const Card: React.FC<CardProps> = ({ deviceData, onButtonClick }) => {
     <div className="bg-Voltage-bgComponent border-Voltage-borderComponent/50 flex w-full min-w-[368px] max-w-[22rem] flex-col rounded-[32px] border-2 sm:max-w-[24rem]">
       <figure className="bg-Voltage-imgContainer flex h-54 justify-center overflow-hidden rounded-t-[30px] px-4 pt-10">
         <img
-          src={`https://github.com/VoltageOS/Website-Resource/blob/master/${deviceData.codename}.png?raw=true`}
+          src={`https://raw.githubusercontent.com/VoltageOS/Website-Resource/master/${deviceData.codename}.png`}
           alt={`${deviceData.oem} ${deviceData.device}`}
           className="h-52 object-contain"
         />

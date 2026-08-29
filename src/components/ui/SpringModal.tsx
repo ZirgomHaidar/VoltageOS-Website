@@ -1,6 +1,7 @@
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion } from "motion/react"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import Markdown from "react-markdown"
+import { BRANCH } from "../services/VoltageDevices"
 
 const SpringModal = ({
   isOpen,
@@ -15,13 +16,15 @@ const SpringModal = ({
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
+    if (!isOpen || !codename) return
     const fetchData = async () => {
       setIsLoading(true)
       await fetchChangelog()
       setIsLoading(false)
     }
     fetchData()
-  }, [codename])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, codename])
 
   useEffect(() => {
     const handleKeyEscape = (event: KeyboardEvent) => {
@@ -40,13 +43,12 @@ const SpringModal = ({
   const fetchChangelog = async () => {
     try {
       const response = await fetch(
-        `https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/17/changelog_${codename}.txt`,
+        `https://raw.githubusercontent.com/VoltageOS/android_vendor_voltageota/refs/heads/${BRANCH}/changelog_${codename}.txt`,
       )
       if (!response.ok) {
         throw new Error("Network response was not ok")
       }
       const data = await response.text()
-      console.log(data)
       setChangelog(data)
     } catch (error) {
       console.error("Error fetching changelog:", error)

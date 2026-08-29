@@ -33,7 +33,7 @@ function Download() {
       <div className="bg-Voltage-bgComponent border-Voltage-borderComponent flex justify-between gap-12 rounded-4xl border-4 p-12 max-[830px]:flex-col">
         {/* left */}
         <img
-          src={`https://github.com/VoltageOS/Website-Resource/blob/master/${data?.codename}.png?raw=true`}
+          src={`https://raw.githubusercontent.com/VoltageOS/Website-Resource/master/${data?.codename}.png`}
           alt="device picture"
           className="hidden max-w-72 object-contain min-[1180px]:block"
         />
@@ -66,7 +66,7 @@ function Download() {
         <div className="flex flex-wrap justify-center gap-4 min-[830px]:flex-col">
           <BuildCard
             href={data?.download || "404"}
-            version={Number(data?.version) || 0}
+            version={data?.version || ""}
             buildDate={data?.timestamp || 0}
           />
           <BuildCard
@@ -89,7 +89,7 @@ const BuildCard = ({
 }: {
   href: string
   prev?: boolean
-  version?: number
+  version?: string
   buildDate?: number
 }) => {
   return (

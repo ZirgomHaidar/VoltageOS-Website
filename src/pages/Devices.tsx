@@ -67,14 +67,9 @@ function Devices() {
     )
   }
 
-  // Debug info to check values
-  console.log("Total devices:", devices.length)
-  console.log("Filtered devices:", filteredDevices.length)
-
   const handleButtonClick = (value: string) => {
     setcodename(value)
     setIsOpen(true)
-    console.log("Button clicked with value:", value)
   }
 
   return (
@@ -115,9 +110,9 @@ function Devices() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-            {filteredDevices.map((deviceData, index) => (
+            {filteredDevices.map((deviceData) => (
               <Card
-                key={index}
+                key={deviceData.codename}
                 deviceData={deviceData}
                 onButtonClick={handleButtonClick}
               />
