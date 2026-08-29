@@ -20,7 +20,7 @@ const SurfaceButton = ({ title, meta, href, className }: SurfaceButtonProps) => 
     <a
       href={href ?? "#"}
       className={cn(
-        "group bg-surface rounded-surface relative isolate flex h-[52px] w-full max-w-[418px] items-center justify-between overflow-clip pr-[22px] pl-[22px] backdrop-blur-[10px] sm:h-[63px] sm:pr-[29px] sm:pl-[30px]",
+        "group bg-surface rounded-surface relative isolate flex h-[52px] w-full items-center justify-between overflow-clip pr-[22px] pl-[22px] backdrop-blur-[10px] sm:h-[63px] sm:pr-[29px] sm:pl-[30px]",
         className,
       )}
     >
