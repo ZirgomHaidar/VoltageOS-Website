@@ -7,6 +7,8 @@
 
   --color-page: #151515;
   --color-surface: rgba(255, 255, 255, 0.05);
+  --color-surface-solid: #212121;
+  --color-surface-card: #191919;
   --color-surface-active: #333333;
   --color-hairline: #333333;
 
@@ -17,12 +19,33 @@
   --color-ink-invert: #000000;
 
   --text-hero: 88.132px;
-  --text-title: 24.112px;
+  --text-h2: 53.944px;
+  --text-h3: 27.729px;
+  --text-body-lg: 24.112px;
+  --text-body-md: 18px;
   --text-nav: 16.629px;
   --text-meta: 15.452px;
 
   --radius-surface: 16.624px;
   --radius-surface-inner: 10px;
+
+  /* Body-lg (582:115, 594:172) tracks -0.5787px at 24.112px = -0.024em
+     exactly; -0.03em would have produced -0.7233px, so this is looser
+     tracking on large body copy than on display type — intent, not
+     exporter rounding. Body-md (594:274) is -0.54px at 18px = -0.03em,
+     so it inherits the base and needs no override. */
+  --tracking-body: -0.024em;
+}
+
+/* Scroll-snap carousels hide their native bar; the IconButton pair is the
+   affordance instead. Declared as @utility so it composes with variants. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer base {

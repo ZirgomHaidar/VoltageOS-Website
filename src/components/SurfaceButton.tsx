@@ -20,7 +20,7 @@ const SurfaceButton = ({ title, meta, href, className }: SurfaceButtonProps) => 
     <a
       href={href ?? "#"}
       className={cn(
-        "group bg-surface rounded-surface relative isolate flex h-[52px] w-full items-center justify-between overflow-clip pr-[22px] pl-[22px] backdrop-blur-[10px] sm:h-[63px] sm:pr-[29px] sm:pl-[30px]",
+        "group bg-surface-solid rounded-surface relative isolate flex h-[52px] w-full items-center justify-between overflow-clip pr-[22px] pl-[22px] backdrop-blur-[10px] sm:h-[63px] sm:pr-[29px] sm:pl-[30px]",
         className,
       )}
     >
@@ -29,7 +29,7 @@ const SurfaceButton = ({ title, meta, href, className }: SurfaceButtonProps) => 
         className="rounded-surface-inner absolute inset-y-0 left-0 -z-10 w-0 bg-white transition-[width] duration-300 ease-out group-hover:w-full"
       />
 
-      <span className="text-ink-muted group-hover:text-ink-invert text-[19px] font-semibold whitespace-nowrap transition-colors duration-300 sm:text-[length:var(--text-title)]">
+      <span className="text-ink-muted group-hover:text-ink-invert text-[length:var(--text-body-md)] font-semibold whitespace-nowrap transition-colors duration-300">
         {title}
       </span>
 
