@@ -14,7 +14,6 @@ const CardCarousel = ({
     <motion.ul
       ref={controls.trackRef}
       onScroll={controls.sync}
-      data-lenis-prevent
       {...inView}
       variants={staggerFast}
       className="no-scrollbar flex snap-x snap-mandatory gap-[15px] overflow-x-auto overscroll-x-contain"

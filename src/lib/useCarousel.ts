@@ -122,6 +122,7 @@ export const useCarousel = () => {
 
       glide.current?.stop()
       dest.current = next
+      mark(next) // hover/enabled state tracks where we're going, not where we are
 
       el.style.scrollSnapType = "none"
 
