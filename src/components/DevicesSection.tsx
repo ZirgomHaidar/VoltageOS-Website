@@ -31,20 +31,20 @@ const DevicesSection = () => {
 
         <motion.ul
           variants={staggerFast}
-          className="mt-[24px] flex w-full flex-wrap items-center justify-center gap-x-[40px] gap-y-[24px] sm:mt-[32px] xl:flex-nowrap xl:gap-[80px]"
+          className="mt-[24px] flex w-full flex-wrap items-center justify-center gap-x-[40px] gap-y-[20px] sm:mt-[32px] xl:gap-[64px]"
         >
           {brands.map((src, i) => (
             <motion.li
               key={i}
               variants={riseInSm}
-              className="flex h-[64px] w-[114px] shrink-0 items-center justify-center sm:h-[80px] sm:w-[142px] xl:h-[100px] xl:w-[178px]"
+              className="flex shrink-0 items-center justify-center"
             >
               <img
                 src={src}
                 alt=""
                 loading="lazy"
                 decoding="async"
-                className="h-full w-full object-contain"
+                className="h-[52px] w-auto object-contain sm:h-[64px] xl:h-[80px]"
               />
             </motion.li>
           ))}
