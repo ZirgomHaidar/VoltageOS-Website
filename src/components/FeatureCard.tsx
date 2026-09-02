@@ -6,6 +6,10 @@ export type Feature = {
   icon: string
 }
 
+/** Shared card surface — extend it, don't re-derive it. See DeviceCard. */
+export const cardShell =
+  "bg-surface-card rounded-surface flex w-full flex-col overflow-clip"
+
 const FeatureCard = ({
   title,
   description,
@@ -15,7 +19,8 @@ const FeatureCard = ({
   return (
     <article
       className={cn(
-        "bg-surface-card rounded-surface flex min-h-[360px] w-full flex-col overflow-clip p-[24px] sm:min-h-[423px] sm:p-[31px] sm:pt-[51px]",
+        cardShell,
+        "min-h-[360px] p-[24px] sm:min-h-[423px] sm:p-[31px] sm:pt-[51px]",
         className,
       )}
     >

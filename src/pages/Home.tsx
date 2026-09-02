@@ -1,7 +1,10 @@
 import { motion } from "motion/react"
 import SurfaceButton from "../components/SurfaceButton"
+import BuildsSection from "../components/BuildsSection"
 import DevicesSection from "../components/DevicesSection"
 import FeaturesSection from "../components/FeaturesSection"
+import FoundationSection from "../components/FoundationSection"
+import SandboxSection from "../components/SandboxSection"
 import { rise } from "../lib/motion"
 
 function Home() {
@@ -56,6 +59,9 @@ function Home() {
 
       <DevicesSection />
       <FeaturesSection />
+      <FoundationSection />
+      <SandboxSection />
+      <BuildsSection />
     </>
   )
 }

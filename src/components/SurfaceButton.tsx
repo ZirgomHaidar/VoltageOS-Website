@@ -6,13 +6,22 @@ type SurfaceButtonProps = {
   title: string
   meta?: string
   href?: string
+  /** Override the link's accessible name when `title` repeats across a list. */
+  ariaLabel?: string
   className?: string
 }
 
-const SurfaceButton = ({ title, meta, href, className }: SurfaceButtonProps) => {
+const SurfaceButton = ({
+  title,
+  meta,
+  href,
+  ariaLabel,
+  className,
+}: SurfaceButtonProps) => {
   return (
     <a
       href={href ?? "#"}
+      aria-label={ariaLabel}
       className={cn(
         buttonShell,
         "flex h-[52px] w-full items-center justify-between pr-[22px] pl-[22px] sm:h-[63px] sm:pr-[29px] sm:pl-[30px]",
