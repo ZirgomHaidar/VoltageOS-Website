@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /* Geist is the product face; Inter backs it up and drives the navbar. */
   --font-geist: "Geist", "Inter", sans-serif;
   --font-inter: "Inter", sans-serif;
 
@@ -18,27 +17,21 @@
   --color-ink-faint: #3c3c3c;
   --color-ink-invert: #000000;
 
-  --text-hero: 88.132px;
-  --text-h2: 53.944px;
-  --text-h3: 27.729px;
-  --text-body-lg: 24.112px;
+  --text-hero: 80px;
+  --text-h2: 45px;
+  --text-h3: 27px;
+  --text-body-lg: 22px;
   --text-body-md: 18px;
-  --text-nav: 16.629px;
-  --text-meta: 15.452px;
+  --text-body-sm: 16px;
+  --text-meta: 16px;
 
   --radius-surface: 16.624px;
-  --radius-surface-inner: 10px;
 
-  /* Body-lg (582:115, 594:172) tracks -0.5787px at 24.112px = -0.024em
-     exactly; -0.03em would have produced -0.7233px, so this is looser
-     tracking on large body copy than on display type — intent, not
-     exporter rounding. Body-md (594:274) is -0.54px at 18px = -0.03em,
-     so it inherits the base and needs no override. */
+  --ease-surface: cubic-bezier(0.33, 1, 0.68, 1);
+
   --tracking-body: -0.024em;
 }
 
-/* Scroll-snap carousels hide their native bar; the IconButton pair is the
-   affordance instead. Declared as @utility so it composes with variants. */
 @utility no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -54,17 +47,20 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+
+    scroll-padding-top: 96px;
   }
 
-  /*
-   * line-height 1.2 and letter-spacing -0.03em hold for every text node in
-   * the design (verified at 88.132 / 24.112 / 16.629 / 15.452px), so they
-   * live here once instead of on each utility.
-   */
+  @media (width >= 40rem) {
+    html {
+      scroll-padding-top: 172px;
+    }
+  }
+
   body {
     min-height: 100dvh;
     font-family: var(--font-geist);
-    font-size: var(--text-nav);
+    font-size: var(--text-body-sm);
     line-height: 1.2;
     letter-spacing: -0.03em;
     color: var(--color-ink);

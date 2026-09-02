@@ -6,23 +6,6 @@ export type Feature = {
   icon: string
 }
 
-/**
- * Figma 594:272 / 600:19 / 600:34 / 600:79 — "Card", 465x423.
- *
- * Vertical stack closes exactly on the body's authored y=294:
- *   51 (pt) + 100 (icon) + 58 (gap) + 85 (title block) = 294
- * so the title gets a RESERVED 85px block rather than pushing the body down.
- * Body starts at the same y in all four cards regardless of title length —
- * that is deliberate, and it is why min-h-[85px] is on the title.
- *
- * min-h rather than h on the card: bodies run 156-196 chars (4-5 lines at
- * 403px), and a fixed height combined with overflow-clip would clip the
- * longest one — certainly so on reuse with different copy.
- *
- * Title widths vary per card in Figma (289 / 256 / 218 / 198) but are
- * manually sized boxes all producing 2 lines, so a uniform max-w-[290px]
- * reproduces card 1 exactly and holds 2 lines on the rest.
- */
 const FeatureCard = ({
   title,
   description,
@@ -32,7 +15,7 @@ const FeatureCard = ({
   return (
     <article
       className={cn(
-        "bg-surface-card rounded-surface flex min-h-[360px] w-full flex-col overflow-clip p-[24px] backdrop-blur-[10px] sm:min-h-[423px] sm:p-[31px] sm:pt-[51px]",
+        "bg-surface-card rounded-surface flex min-h-[360px] w-full flex-col overflow-clip p-[24px] sm:min-h-[423px] sm:p-[31px] sm:pt-[51px]",
         className,
       )}
     >
