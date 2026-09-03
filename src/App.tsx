@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import Lenis from "lenis"
 import { Route, Routes } from "react-router"
 import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
 import Home from "./pages/Home"
 import Devices from "./pages/Devices"
 import Maintainership from "./pages/Maintainership"
@@ -27,6 +28,7 @@ function App() {
         <Route path="/devices/download/:codename" element={<Devices />} />
         <Route path="/maintainership" element={<Maintainership />} />
       </Routes>
+      <Footer />
     </>
   )
 }

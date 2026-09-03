@@ -4,6 +4,7 @@ import BuildsSection from "../components/BuildsSection"
 import DevicesSection from "../components/DevicesSection"
 import FeaturesSection from "../components/FeaturesSection"
 import FoundationSection from "../components/FoundationSection"
+import MaintainerSection from "../components/MaintainerSection"
 import SandboxSection from "../components/SandboxSection"
 import { rise } from "../lib/motion"
 
@@ -62,6 +63,7 @@ function Home() {
       <FoundationSection />
       <SandboxSection />
       <BuildsSection />
+      <MaintainerSection />
     </>
   )
 }
