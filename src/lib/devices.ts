@@ -17,31 +17,37 @@ type DeviceMeta = {
 }
 
 export const DEVICE_REGISTRY: Record<string, DeviceMeta> = {
-  apollo: {},
-  dm1q: {},
-  dm2q: {},
+  // `name` is an OVERRIDE, so it wins over the feed. Only set one where the
+  // feed cannot supply a usable string: a device with no branch-17 build yet,
+  // or a feed name that reads wrong without its brand (`brand` is not carried
+  // into Device, so "5 / 5s / 5i" would render exactly like that).
+  // Every name below is what upstream's own 16.2 JSON reports — not a guess.
+  // Delete an entry once that codename ships on 17 and reports the same thing.
+  apollo: {}, // upstream reports "apollo" — no marketing name exists yet
+  dm1q: { name: "Galaxy S23" },
+  dm2q: { name: "Galaxy S23+" },
   lemonade: {},
   lemonadep: {},
-  lilac: {},
+  lilac: {}, // upstream reports "lilac"
   marble: {},
   mars: {},
   miatoll: {},
   peridot: {},
-  phoenix: {},
+  phoenix: { name: "Poco X2" },
   porsche: { name: "Realme GT 2" },
-  r5x: {},
-  raphael: { name: "Redmi K20 Pro" },
+  r5x: { name: "Realme 5 / 5s / 5i" },
+  raphael: {},
   spacewar: {},
-  star: {},
-  sunny: {},
-  sweet: { name: "Redmi Note 10 Pro / Max" },
+  star: {}, // upstream reports "star"
+  sunny: { name: "Redmi Note 10" },
+  sweet: { name: "Redmi Note 10 Pro / Max" }, // shorter than the feed's string
   veux: {},
   vili: {},
   violet: {},
   x00t: {},
-  yunluo: {},
-  z2_plus: {},
-  ziti: { name: "OnePlus Nord CE3 5G" },
+  yunluo: { name: "Redmi Pad" },
+  z2_plus: { name: "ZUK Z2 Plus" }, // feed says only "Z2 Plus"
+  ziti: {},
 }
 
 // ponytail: drop a `{codename}.png` into src/assets/devices/ and it is picked
@@ -79,6 +85,8 @@ export type Device = {
   version: string
   /** Absent when the feed omits it — the card drops the row instead of printing "undefined". */
   md5?: string
+  /** Build size in BYTES, straight from the feed. Formatted at render. */
+  size?: number
   /** Unix epoch seconds, sanity-checked. Formatted at render, never pre-formatted. */
   builtAt: number
   image?: string
@@ -135,6 +143,10 @@ export const toDevice = (codename: string, entry: OtaEntry): Device => {
     maintainer: entry.maintainer?.trim() || (meta.maintainer ?? "Unknown"),
     version: entry.version,
     md5: entry.md5?.trim() || undefined,
+    // Guarded here rather than in isOtaEntry: a bad size costs one row, not
+    // the whole build, so it must not disqualify an otherwise valid entry.
+    size:
+      typeof entry.size === "number" && entry.size > 0 ? entry.size : undefined,
     builtAt: entry.timestamp,
     image: deviceImage(codename),
   }
@@ -170,6 +182,15 @@ export const isoTimestamp = (unixSeconds: number) => {
   const date = new Date(unixSeconds * 1000)
   return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
 }
+
+/**
+ * "1.81 GB" — GB/MB decimal, matching how ROM sizes are quoted everywhere
+ * (SourceForge, release posts), not the binary GiB a file manager shows.
+ */
+export const buildSize = (bytes: number) =>
+  bytes >= 1e9
+    ? `${(bytes / 1e9).toFixed(2)} GB`
+    : `${Math.round(bytes / 1e6)} MB`
 
 if (import.meta.env.DEV) {
   console.assert(

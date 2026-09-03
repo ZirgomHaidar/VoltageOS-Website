@@ -1,5 +1,6 @@
 import {
   buildDate,
+  buildSize,
   isoTimestamp,
   relativeTime,
   type Device,
@@ -14,6 +15,7 @@ const DeviceCard = ({
   maintainer,
   version,
   md5,
+  size,
   builtAt,
   image,
   className,
@@ -34,7 +36,7 @@ const DeviceCard = ({
           alt=""
           loading="lazy"
           decoding="async"
-          className="bg-surface-active aspect-[452/322] w-full shrink-0 rounded-[10px] object-contain"
+          className="aspect-[452/322] w-full shrink-0 rounded-[10px] object-contain"
         />
       ) : (
         // ponytail: drop src/assets/devices/<codename>.png to replace this.
@@ -75,6 +77,11 @@ const DeviceCard = ({
         <p className="text-ink-muted mt-[8px] text-[15px] leading-[1.2] font-normal sm:text-[length:var(--text-body-md)]">
           Version: {version}
         </p>
+        {size ? (
+          <p className="text-ink-muted mt-[8px] text-[15px] leading-[1.2] font-normal sm:text-[length:var(--text-body-md)]">
+            Size: {buildSize(size)}
+          </p>
+        ) : null}
         {/* The OTA feed publishes md5 only — there is no sha256 field. */}
         {md5 ? (
           <p
