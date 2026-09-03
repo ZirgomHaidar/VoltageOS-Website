@@ -1,0 +1,6 @@
+# Without this file the catch-all rewrite in vercel.json answers /robots.txt
+# with the SPA's HTML, which a crawler reads as a malformed directive rather
+# than as a missing file. An explicit allow-all is the same policy, stated in
+# a form robots parsers accept.
+User-agent: *
+Allow: /

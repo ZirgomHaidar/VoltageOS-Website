@@ -4,13 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/voltageico.svg" />
+    <meta name="theme-color" content="#151515" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
-    <title>VoltageOS</title>
+
+    <!--
+      The build feed lives on raw.githubusercontent.com, and nothing requests it
+      until the bundle has downloaded, parsed and mounted. Warming DNS and TLS
+      here moves that handshake into the JS download rather than after it, so
+      the first OTA request spends its time on the response alone.
+    -->
+    <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+
+    <title>VoltageOS — Open source Android, built for privacy</title>
+    <meta
+      name="description"
+      content="VoltageOS is an open source Android operating system built around privacy, security and control, with a clean experience and regular security updates for supported devices."
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="VoltageOS" />
+    <meta
+      property="og:title"
+      content="VoltageOS — Open source Android, built for privacy"
+    />
+    <meta
+      property="og:description"
+      content="Open source Android built around privacy, security and control. Browse the latest builds for supported devices."
+    />
+    <!-- ponytail: `summary` until a 1200x630 og:image exists in public/.
+         Declaring summary_large_image with no image renders an empty card
+         slot, which reads worse than the small card it falls back to. -->
+    <meta name="twitter:card" content="summary" />
   </head>
   <body>
     <div id="root"></div>
