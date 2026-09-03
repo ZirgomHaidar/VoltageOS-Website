@@ -9,11 +9,9 @@
  * and `maintainer`, so leave a value empty (`{}`) unless you want to override
  * what upstream reports.
  */
-export type DeviceMeta = {
+type DeviceMeta = {
   /** Overrides the feed's `device` (marketing name). */
   name?: string
-  /** Overrides the feed's `oem`. */
-  brand?: string
   /** Fallback only — the feed wins when it reports a maintainer. */
   maintainer?: string
 }
@@ -55,7 +53,7 @@ const IMAGES = import.meta.glob<string>("../assets/devices/*.png", {
   import: "default",
 })
 
-export const deviceImage = (codename: string): string | undefined =>
+const deviceImage = (codename: string): string | undefined =>
   IMAGES[`../assets/devices/${codename}.png`]
 
 /** Feed entry — https://github.com/VoltageOS/android_vendor_voltageota */
@@ -77,7 +75,6 @@ export type OtaEntry = {
 export type Device = {
   codename: string
   name: string
-  brand?: string
   maintainer: string
   version: string
   /** Absent when the feed omits it — the card drops the row instead of printing "undefined". */
@@ -134,7 +131,6 @@ export const toDevice = (codename: string, entry: OtaEntry): Device => {
     codename,
     // `device` can be an empty string in the feed, which `??` would keep.
     name: meta.name || entry.device?.trim() || codename,
-    brand: meta.brand || entry.oem?.trim() || undefined,
     // Feed is authoritative; registry covers a build that reports none.
     maintainer: entry.maintainer?.trim() || (meta.maintainer ?? "Unknown"),
     version: entry.version,
