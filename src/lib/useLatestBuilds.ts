@@ -24,8 +24,8 @@ export type BuildsState = {
 
 const fetchDevice = async (codename: string, signal: AbortSignal) => {
   const response = await fetch(`${OTA}/${codename}.json`, { signal })
-  // 3 of the 12 index entries have no JSON on branch 17 (guacamoleb, tb128fu,
-  // whyred). A 404 is an expected orphan, not an error worth surfacing.
+  // Most registry codenames have no JSON on branch 17 yet. A 404 is an
+  // expected absence, not an error worth surfacing.
   if (!response.ok) return undefined
 
   const entry = parseOta(await response.json())
@@ -33,9 +33,10 @@ const fetchDevice = async (codename: string, signal: AbortSignal) => {
 }
 
 export const fetchBuilds = async (signal: AbortSignal) => {
-  const codenames = Object.keys(DEVICE_REGISTRY)
   const settled = await Promise.allSettled(
-    codenames.map((codename) => fetchDevice(codename, signal)),
+    Object.keys(DEVICE_REGISTRY).map((codename) =>
+      fetchDevice(codename, signal),
+    ),
   )
 
   const devices = settled
@@ -44,8 +45,8 @@ export const fetchBuilds = async (signal: AbortSignal) => {
     )
     .sort((a, b) => b.builtAt - a.builtAt)
 
-  // Distinguish "upstream is down" from "upstream has nothing": only the
-  // former has zero fulfilled results across the whole fan-out.
+  // A 404 still counts as reached — only a total absence of fulfilled results
+  // means the host itself was unreachable.
   const reachable = settled.some((result) => result.status === "fulfilled")
 
   return { devices, reachable }
@@ -68,40 +69,56 @@ export const useLatestBuilds = (): BuildsState => {
   }, [])
 
   useEffect(() => {
-    let controller: AbortController | undefined
-    let timer: number | undefined
+    // One controller for the effect's whole life, aborted only on unmount.
+    // Aborting per-load would kill an in-flight fan-out, and because
+    // Promise.allSettled resolves rather than rejects, those aborts would
+    // read as "upstream unreachable" and blank the grid.
+    const controller = new AbortController()
+    let inFlight = false
+    let lastLoaded = 0
 
     const load = async () => {
-      // A hidden tab polls nothing. raw.githubusercontent.com publishes no
-      // rate limit, so restraint is the only available mitigation.
-      if (document.visibilityState === "hidden") return
-
-      controller?.abort()
-      controller = new AbortController()
+      if (inFlight || controller.signal.aborted) return
+      inFlight = true
 
       try {
         const { devices, reachable } = await fetchBuilds(controller.signal)
+        if (controller.signal.aborted) return
+
+        lastLoaded = Date.now()
         setState((previous) => ({
           // Keep the last good grid when a poll comes back empty.
           devices: devices.length > 0 ? devices : previous.devices,
           loading: false,
           error: !reachable,
         }))
-      } catch (cause) {
-        if ((cause as Error)?.name === "AbortError") return
+      } catch {
+        if (controller.signal.aborted) return
         setState((previous) => ({ ...previous, loading: false, error: true }))
+      } finally {
+        inFlight = false
       }
     }
 
+    const onVisibility = () => {
+      // Returning to a tab refetches only if the data has actually gone stale.
+      if (document.visibilityState !== "visible") return
+      if (Date.now() - lastLoaded < POLL_MS) return
+      void load()
+    }
+
     void load()
-    timer = window.setInterval(load, POLL_MS)
-    // Catch up immediately when a backgrounded tab returns.
-    document.addEventListener("visibilitychange", load)
+    // A hidden tab polls nothing. raw.githubusercontent.com publishes no rate
+    // limit, so restraint is the only available mitigation.
+    const timer = window.setInterval(() => {
+      if (document.visibilityState === "visible") void load()
+    }, POLL_MS)
+    document.addEventListener("visibilitychange", onVisibility)
 
     return () => {
-      controller?.abort()
+      controller.abort()
       window.clearInterval(timer)
-      document.removeEventListener("visibilitychange", load)
+      document.removeEventListener("visibilitychange", onVisibility)
     }
   }, [])
 

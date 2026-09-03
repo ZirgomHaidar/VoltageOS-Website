@@ -1,5 +1,5 @@
 import { motion } from "motion/react"
-import { inView, riseIn, scaleIn, stagger, staggerFast } from "../lib/motion"
+import { EASE, inView, riseIn, stagger } from "../lib/motion"
 import { useLatestBuilds } from "../lib/useLatestBuilds"
 import DeviceCard, { DeviceCardSkeleton } from "./DeviceCard"
 import SurfaceButton from "./SurfaceButton"
@@ -19,8 +19,17 @@ const BuildsSection = () => {
       />
 
       <div className="relative px-6 sm:pr-[calc(6.615%+48px)] sm:pl-[calc(6.198%+55px)]">
-        <motion.div {...inView} variants={stagger} className="flex flex-col">
-          <div className="flex flex-col gap-[32px] xl:flex-row xl:items-end xl:justify-between">
+        <div className="flex flex-col">
+          {/* The scroll gate covers the header ONLY. It used to wrap the grid
+              too, which is what hid the cards on refresh: a restored scroll
+              position fires the observer immediately, it detaches (once: true)
+              while only skeletons exist, and the real cards mount afterwards
+              with no trigger left to move them off `hidden`. */}
+          <motion.div
+            {...inView}
+            variants={stagger}
+            className="flex flex-col gap-[32px] xl:flex-row xl:items-end xl:justify-between"
+          >
             <div className="flex max-w-[762px] flex-col">
               <motion.p
                 variants={riseIn}
@@ -53,37 +62,35 @@ const BuildsSection = () => {
             >
               <SurfaceButton title="Download for your device" href="/devices" />
             </motion.div>
-          </div>
+          </motion.div>
 
           {/* Live region so the grid swapping under a screen reader is announced. */}
           <div
             aria-live="polite"
             aria-busy={loading}
-            className="mt-[48px] sm:mt-[64px]"
+            className="mt-[48px] grid grid-cols-1 gap-[24px] sm:mt-[64px] sm:gap-[37px] lg:grid-cols-2 xl:grid-cols-3"
           >
             {loading ? (
-              <ul className="grid grid-cols-1 gap-[24px] sm:gap-[37px] lg:grid-cols-2 xl:grid-cols-3">
-                {Array.from({ length: TEASE }, (_, i) => (
-                  <li key={i} className="flex">
-                    <DeviceCardSkeleton />
-                  </li>
-                ))}
-              </ul>
+              Array.from({ length: TEASE }, (_, i) => (
+                <DeviceCardSkeleton key={i} />
+              ))
             ) : latest.length > 0 ? (
-              <motion.ul
-                variants={staggerFast}
-                className="grid grid-cols-1 gap-[24px] sm:gap-[37px] lg:grid-cols-2 xl:grid-cols-3"
-              >
-                {latest.map((device) => (
-                  <motion.li
-                    key={device.codename}
-                    variants={scaleIn}
-                    className="flex"
-                  >
-                    <DeviceCard {...device} />
-                  </motion.li>
-                ))}
-              </motion.ul>
+              latest.map((device, i) => (
+                // Explicit initial/animate with a computed delay — deliberately
+                // NOT variants. These cards mount when the fetch resolves, so
+                // any inherited variant state is a coin flip on timing; per-card
+                // props resolve from nothing but themselves and cannot get
+                // stranded at opacity 0.
+                <motion.div
+                  key={device.codename}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1.2, delay: i * 0.12, ease: EASE }}
+                  className="flex"
+                >
+                  <DeviceCard {...device} />
+                </motion.div>
+              ))
             ) : (
               <p className="text-ink-muted text-[16px] leading-[1.2] font-normal sm:text-[length:var(--text-body-md)]">
                 {error
@@ -92,7 +99,7 @@ const BuildsSection = () => {
               </p>
             )}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )
