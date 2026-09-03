@@ -20,16 +20,12 @@ const BuildsSection = () => {
 
       <div className="relative px-6 sm:pr-[calc(6.615%+48px)] sm:pl-[calc(6.198%+55px)]">
         <div className="flex flex-col">
-          {/* The scroll gate covers the header ONLY. It used to wrap the grid
-              too, which is what hid the cards on refresh: a restored scroll
-              position fires the observer immediately, it detaches (once: true)
-              while only skeletons exist, and the real cards mount afterwards
-              with no trigger left to move them off `hidden`. */}
-          <motion.div
-            {...inView}
-            variants={stagger}
-            className="flex flex-col gap-[32px] xl:flex-row xl:items-end xl:justify-between"
-          >
+          {/* The scroll gate covers the header and CTA ONLY — both are static
+              and present at mount, so they catch the variant flip. It must not
+              wrap the grid: a restored scroll position fires the observer
+              immediately, it detaches (once: true) while only skeletons exist,
+              and cards mounting later inherit hidden with no trigger left. */}
+          <motion.div {...inView} variants={stagger} className="flex flex-col">
             <div className="flex max-w-[762px] flex-col">
               <motion.p
                 variants={riseIn}
@@ -56,9 +52,12 @@ const BuildsSection = () => {
               </motion.p>
             </div>
 
+            {/* Sits between the copy and the grid, so it reads as the action the
+                grid answers to. Same 418px cap SurfaceButton gets in the Hero
+                and Foundation sections. */}
             <motion.div
               variants={riseIn}
-              className="w-full max-w-[418px] shrink-0"
+              className="mt-[32px] w-full max-w-[418px] sm:mt-[48px]"
             >
               <SurfaceButton title="Download for your device" href="/devices" />
             </motion.div>
