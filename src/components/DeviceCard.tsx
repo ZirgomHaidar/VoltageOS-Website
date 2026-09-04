@@ -13,6 +13,7 @@ const DeviceCard = ({
   codename,
   name,
   maintainer,
+  maintainerGitHub,
   version,
   md5,
   size,
@@ -65,9 +66,31 @@ const DeviceCard = ({
           </span>
         </div>
 
-        <p className="text-ink-muted mt-[8px] truncate text-[15px] leading-[1.2] font-normal sm:text-[length:var(--text-body-md)]">
-          {maintainer}
-        </p>
+        <div className="mt-[10px] flex items-center gap-[10px]">
+          {/* The circle is the fallback: a 404 avatar hides itself and leaves
+              the surface behind it, so the row never collapses. github.com/<user>.png
+              is used over api.github.com/users/<user> deliberately — the API caps
+              unauthenticated callers at 60 req/hr, which one page of 25 cards
+              would exhaust on a second visit. */}
+          <span className="bg-surface-active size-[28px] shrink-0 overflow-clip rounded-full">
+            {maintainerGitHub ? (
+              <img
+                src={`https://github.com/${maintainerGitHub}.png?size=56`}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                onError={(event) => {
+                  event.currentTarget.style.display = "none"
+                }}
+                className="size-full object-cover"
+              />
+            ) : null}
+          </span>
+          <p className="text-ink-muted truncate text-[15px] leading-[1.2] font-normal sm:text-[length:var(--text-body-md)]">
+            {maintainer}
+          </p>
+        </div>
 
         {/* mt-auto pins the metadata block to the bottom so cards of differing
             title heights still line their dates up across a row. */}

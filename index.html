@@ -21,6 +21,14 @@
     -->
     <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
 
+    <!--
+      Maintainer avatars. github.com/<login>.png is a redirect, so a card's
+      avatar costs two handshakes on two hosts before a byte of image moves.
+      Warming both collapses that to the redirect alone.
+    -->
+    <link rel="preconnect" href="https://github.com" />
+    <link rel="preconnect" href="https://avatars.githubusercontent.com" />
+
     <title>VoltageOS — Open source Android, built for privacy</title>
     <meta
       name="description"

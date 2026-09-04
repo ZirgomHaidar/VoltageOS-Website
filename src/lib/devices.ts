@@ -8,12 +8,30 @@
  * Values are OPTIONAL overrides. The OTA feed already carries `device`, `oem`
  * and `maintainer`, so leave a value empty (`{}`) unless you want to override
  * what upstream reports.
+ *
+ * ─── ADDING A MAINTAINER AVATAR ────────────────────────────────────────────
+ * Set `github` to the maintainer's GitHub LOGIN (the /username in their
+ * profile URL), not their display name:
+ *
+ *   marble: { github: "rokusenpaii" },
+ *
+ * The card fetches https://github.com/<login>.png. That is the only source for
+ * the avatar — the feed's `maintainer` is a display name and is never guessed
+ * at as a login, because a name that happens to be someone else's handle
+ * ("Frost", "Talha") would render a stranger's face. No `github` means the
+ * card shows the maintainer's initials instead.
+ *
+ * To find a login: open the commit history of the device's OTA JSON at
+ * github.com/VoltageOS/android_vendor_voltageota (branch 17) — whoever pushes
+ * `<codename>.json` is the maintainer, and the commit carries their login.
  */
 type DeviceMeta = {
   /** Overrides the feed's `device` (marketing name). */
   name?: string
   /** Fallback only — the feed wins when it reports a maintainer. */
   maintainer?: string
+  /** Maintainer's GitHub login — the ONLY source for the card's avatar. */
+  github?: string
 }
 
 export const DEVICE_REGISTRY: Record<string, DeviceMeta> = {
@@ -23,31 +41,36 @@ export const DEVICE_REGISTRY: Record<string, DeviceMeta> = {
   // into Device, so "5 / 5s / 5i" would render exactly like that).
   // Every name below is what upstream's own 16.2 JSON reports — not a guess.
   // Delete an entry once that codename ships on 17 and reports the same thing.
+  //
+  // Every `github` below is the commit author of that device's own
+  // <codename>.json on branch 17 — verified, not inferred from the feed's
+  // display name. A codename with no build on 17 has no login to verify yet;
+  // fill it in when it ships.
   apollo: {}, // upstream reports "apollo" — no marketing name exists yet
   dm1q: { name: "Galaxy S23" },
   dm2q: { name: "Galaxy S23+" },
   lemonade: {},
   lemonadep: {},
   lilac: {}, // upstream reports "lilac"
-  marble: {},
+  marble: { github: "rokusenpaii" }, // feed says "Talha"
   mars: {},
-  miatoll: {},
-  peridot: {},
+  miatoll: { github: "ihsanulrahman" }, // feed says "iHSAN"
+  peridot: { github: "GuidixX" },
   phoenix: { name: "Poco X2" },
   porsche: { name: "Realme GT 2" },
   r5x: { name: "Realme 5 / 5s / 5i" },
-  raphael: {},
+  raphael: { github: "PptO07" }, // feed says "Pranav Temkar"
   spacewar: {},
   star: {}, // upstream reports "star"
   sunny: { name: "Redmi Note 10" },
-  sweet: { name: "Redmi Note 10 Pro / Max" }, // shorter than the feed's string
-  veux: {},
+  sweet: { name: "Redmi Note 10 Pro / Max", github: "mrfox2003" }, // feed says "Niranjan BR"
+  veux: { github: "Karan-Frost" }, // feed says "Frost"
   vili: {},
-  violet: {},
+  violet: { github: "Karan-Frost" }, // feed says "Frost"
   x00t: {},
   yunluo: { name: "Redmi Pad" },
-  z2_plus: { name: "ZUK Z2 Plus" }, // feed says only "Z2 Plus"
-  ziti: {},
+  z2_plus: { name: "ZUK Z2 Plus", github: "shutter-cat" }, // feed says "Dmitrii"
+  ziti: { github: "amit-0i" },
 }
 
 // ponytail: drop a `{codename}.png` into src/assets/devices/ and it is picked
@@ -59,7 +82,12 @@ const IMAGES = import.meta.glob<string>("../assets/devices/*.png", {
   import: "default",
 })
 
-const deviceImage = (codename: string): string | undefined =>
+/**
+ * Exported for the session cache: a persisted `image` is a build-hashed URL
+ * that 404s after the next deploy, so it is stripped on write and re-resolved
+ * through here on read.
+ */
+export const deviceImage = (codename: string): string | undefined =>
   IMAGES[`../assets/devices/${codename}.png`]
 
 /** Feed entry — https://github.com/VoltageOS/android_vendor_voltageota */
@@ -82,6 +110,10 @@ export type Device = {
   codename: string
   name: string
   maintainer: string
+  /** The feed's `oem`. Drives the brand filter on /devices. */
+  brand?: string
+  /** The registry's `github` login. Absent until a device is mapped. */
+  maintainerGitHub?: string
   version: string
   /** Absent when the feed omits it — the card drops the row instead of printing "undefined". */
   md5?: string
@@ -104,8 +136,11 @@ const MIN_TIMESTAMP = 1_420_070_400
  * Rejects 0, NaN, and millisecond timestamps. A ms value dates the build to
  * year 58000, where `toISOString()` throws RangeError and unmounts the whole
  * section — this guard is what keeps one malformed entry local to its card.
+ *
+ * Exported because the session cache is a trust boundary too: a persisted
+ * payload is re-validated on read, not assumed to have come from this pipeline.
  */
-const isPlausibleTimestamp = (value: unknown): value is number =>
+export const isPlausibleTimestamp = (value: unknown): value is number =>
   typeof value === "number" &&
   Number.isFinite(value) &&
   value >= MIN_TIMESTAMP &&
@@ -132,15 +167,31 @@ export const parseOta = (payload: unknown): OtaEntry | undefined => {
   return list.filter(isOtaEntry).sort((a, b) => b.timestamp - a.timestamp)[0]
 }
 
+/**
+ * The card's avatar comes from `github` in the registry and nowhere else.
+ *
+ * The feed's `maintainer` is a DISPLAY NAME, and deriving a login from it is
+ * actively unsafe: "Frost", "Talha" and "Dmitrii" are all registered GitHub
+ * accounts belonging to unrelated people, so a name-shaped guess renders a
+ * stranger's face and nothing about the page looks broken. An unmapped device
+ * shows initials instead.
+ */
+const githubHandle = (override?: string) => override?.trim() || undefined
+
 export const toDevice = (codename: string, entry: OtaEntry): Device => {
   const meta = DEVICE_REGISTRY[codename] ?? {}
+  // Feed is authoritative; registry covers a build that reports none.
+  const maintainer = entry.maintainer?.trim() || (meta.maintainer ?? "Unknown")
 
   return {
     codename,
     // `device` can be an empty string in the feed, which `??` would keep.
     name: meta.name || entry.device?.trim() || codename,
-    // Feed is authoritative; registry covers a build that reports none.
-    maintainer: entry.maintainer?.trim() || (meta.maintainer ?? "Unknown"),
+    maintainer,
+    maintainerGitHub: githubHandle(meta.github),
+    // Drives the brand filter. Absent for a feed that omits `oem`, which the
+    // filter treats as unbranded rather than inventing a bucket.
+    brand: entry.oem?.trim() || undefined,
     version: entry.version,
     md5: entry.md5?.trim() || undefined,
     // Guarded here rather than in isOtaEntry: a bad size costs one row, not
