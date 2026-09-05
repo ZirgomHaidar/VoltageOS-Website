@@ -51,7 +51,11 @@ function Home() {
             {...rise(0.42)}
             className="flex w-full max-w-[418px] flex-col gap-[14px] 2xl:w-[418px] 2xl:max-w-none"
           >
-            <SurfaceButton title="What's New?" meta="Android 17 is out" />
+            <SurfaceButton
+              title="What's New?"
+              meta="Android 17 is out"
+              href="/devices"
+            />
             <SurfaceButton title="Get VoltageOS" href="/devices" />
           </motion.div>
         </div>

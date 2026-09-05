@@ -18,16 +18,14 @@ const SurfaceButton = ({
   ariaLabel,
   className,
 }: SurfaceButtonProps) => {
-  return (
-    <a
-      href={href ?? "#"}
-      aria-label={ariaLabel}
-      className={cn(
-        buttonShell,
-        "flex h-[52px] w-full items-center justify-between pr-[22px] pl-[22px] sm:h-[63px] sm:pr-[29px] sm:pl-[30px]",
-        className,
-      )}
-    >
+  const shell = cn(
+    buttonShell,
+    "flex h-[52px] w-full items-center justify-between pr-[22px] pl-[22px] sm:h-[63px] sm:pr-[29px] sm:pl-[30px]",
+    className,
+  )
+
+  const content = (
+    <>
       <ButtonWipe />
 
       <span className="text-ink-muted group-hover:text-ink-invert ease-surface text-[length:var(--text-body-md)] font-semibold whitespace-nowrap transition-colors duration-[550ms]">
@@ -42,7 +40,20 @@ const SurfaceButton = ({
         ) : null}
         <ArrowRight className="ease-surface transition-[translate] duration-[550ms] group-hover:translate-x-[3px]" />
       </span>
+    </>
+  )
+
+  // An anchor with no `href` is not focusable, and `href="#"` scrolls to the top
+  // rather than navigating, so a destination-less button renders as a real
+  // <button> — same shell, still tab-reachable, no phantom navigation.
+  return href ? (
+    <a href={href} aria-label={ariaLabel} className={shell}>
+      {content}
     </a>
+  ) : (
+    <button type="button" aria-label={ariaLabel} className={shell}>
+      {content}
+    </button>
   )
 }
 

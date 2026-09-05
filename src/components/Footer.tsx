@@ -11,16 +11,14 @@ import { inView, riseInSm, stagger } from "../lib/motion"
  * padded content box.
  */
 
-// ponytail: the design names no destinations, so links with no route or known
-// URL in the repo are left as "#" — listed out after the component.
 const columns = [
   {
     title: "Products",
     links: [
       { name: "Devices", href: "/devices" },
-      { name: "Latest Builds", href: "#" },
+      { name: "Latest Builds", href: "/devices" },
       { name: "Downloads", href: "/devices" },
-      { name: "Changelogs", href: "#" },
+      { name: "Changelogs", href: "/devices" },
     ],
   },
   {
@@ -28,17 +26,17 @@ const columns = [
     links: [
       { name: "GitHub", href: "https://github.com/VoltageOS" },
       { name: "Maintainership", href: "/maintainership" },
-      { name: "Support", href: "#" },
-      { name: "Announcements", href: "#" },
+      { name: "Support", href: "https://t.me/VoltageOSSupport" },
+      { name: "Announcements", href: "https://t.me/voltageosannouncements" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { name: "Documentation", href: "#" },
-      { name: "Code of Conduct", href: "#" },
-      { name: "Privacy", href: "#" },
-      { name: "Contact", href: "#" },
+      {
+        name: "Code of Conduct",
+        href: "https://github.com/VoltageOS/maintainership",
+      },
     ],
   },
 ]
