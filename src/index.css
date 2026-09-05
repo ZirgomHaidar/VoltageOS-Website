@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+/*
+ * Both families ship from this origin. Loading them from Google Fonts disclosed
+ * every visitor's IP to a third party on first paint, which a site advertising a
+ * privacy-focused ROM cannot do. Self-hosting also lets the CSP drop two hosts.
+ *
+ * One variable file per family covers the whole 100–900 range, so narrowing the
+ * declared range would save no bytes. Relative url() is rewritten and hashed by
+ * Vite; an absolute /src/ path would not be.
+ */
+@font-face {
+  font-family: "Geist";
+  src: url("./assets/fonts/GeistVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/InterVariable-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-geist: "Geist", "Inter", sans-serif;
   --font-inter: "Inter", sans-serif;

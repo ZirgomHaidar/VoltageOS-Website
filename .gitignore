@@ -25,3 +25,12 @@ dist-ssr
 
 # Figma reference screenshots (local only)
 .design-refs/
+
+# Environment and credential files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+.vercel

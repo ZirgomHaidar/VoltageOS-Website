@@ -21,6 +21,17 @@ const POLL_MS = 300_000
 /** "Updated 2 hours ago" has to age on its own clock, not on fetch responses. */
 const TICK_MS = 60_000
 
+/**
+ * A stalled connection has to end somewhere: without this the fan-out never
+ * settles, `loading` never flips, and the grid holds its skeletons forever
+ * while the error state it should have shown never renders either.
+ *
+ * 10s is well past a cold CDN response on a slow mobile connection, and far
+ * under the 300s poll — a device that times out is retried on the next tick, so
+ * being wrong costs one missing card for one cycle rather than a failed load.
+ */
+const REQUEST_TIMEOUT_MS = 10_000
+
 /** Bump the suffix when `Device` changes shape — a stale entry must not revive. */
 const CACHE_KEY = `vos:builds:${BRANCH}:v1`
 
@@ -100,14 +111,52 @@ export type BuildsState = {
   error: boolean
 }
 
-const fetchDevice = async (codename: string, signal: AbortSignal) => {
-  const response = await fetch(`${OTA}/${codename}.json`, { signal })
-  // Most registry codenames have no JSON on branch 17 yet. A 404 is an
-  // expected absence, not an error worth surfacing.
-  if (!response.ok) return undefined
+const fetchDevice = async (
+  codename: string,
+  signal: AbortSignal,
+  // Overridable only so the dev check below can drive the timeout branch
+  // without a fake clock. fetchBuilds never passes it.
+  timeoutMs = REQUEST_TIMEOUT_MS,
+) => {
+  // Composed by hand rather than with AbortSignal.any([signal,
+  // AbortSignal.timeout(...)]). lib.dom types both regardless of `target`, so
+  // typechecking is no evidence of runtime support: this build targets ES2020
+  // (the same floor that rules out Array.prototype.at in devices.ts), while
+  // AbortSignal.timeout is 2022 and .any is Baseline 2024. On a browser at that
+  // floor the missing static throws a TypeError before fetch is ever called,
+  // every entry in the fan-out rejects, and fetchBuilds reads that as an
+  // unreachable host — a worse outage than the stall this is meant to fix.
+  const controller = new AbortController()
+  const abort = () => controller.abort()
+  const timer = window.setTimeout(abort, timeoutMs)
+  // An unmount that already happened fires no event, so the listener alone
+  // would send the request out on a live signal instead of failing fast.
+  signal.addEventListener("abort", abort)
+  if (signal.aborted) abort()
 
-  const entry = parseOta(await response.json())
-  return entry && toDevice(codename, entry)
+  try {
+    const response = await fetch(`${OTA}/${codename}.json`, {
+      signal: controller.signal,
+    })
+    // Most registry codenames have no JSON on branch 17 yet. A 404 is an
+    // expected absence, not an error worth surfacing.
+    if (!response.ok) return undefined
+
+    const entry = parseOta(await response.json())
+    return entry && toDevice(codename, entry)
+  } catch (error) {
+    // A timeout resolves as undefined, exactly like a 404 does: fetchBuilds
+    // reads any rejection as "host not reached", so rethrowing here would let
+    // one slow device error the whole grid. An unmount abort still rejects,
+    // and load() discards that through its own aborted check before painting.
+    // Checked by flag rather than error.name — engines disagree on whether an
+    // aborted fetch surfaces AbortError or TimeoutError.
+    if (controller.signal.aborted && !signal.aborted) return undefined
+    throw error
+  } finally {
+    window.clearTimeout(timer)
+    signal.removeEventListener("abort", abort)
+  }
 }
 
 export const fetchBuilds = async (signal: AbortSignal) => {
@@ -212,4 +261,31 @@ export const useLatestBuilds = (): BuildsState => {
   }, [])
 
   return state
+}
+
+if (import.meta.env.DEV) {
+  // Exercises the real fetchDevice rather than restating it, and needs no fake
+  // clock: a 0ms timeout aborts the request in the macrotask after it starts,
+  // so the timeout branch runs for real. Costs one aborted request per dev
+  // load — it is cancelled before it can travel.
+  void (async () => {
+    const live = new AbortController()
+    console.assert(
+      (await fetchDevice("marble", live.signal, 0)) === undefined,
+      "a timed-out device resolves undefined like a 404 — rejecting would let one slow device error the whole grid",
+    )
+
+    // The unmount path must stay a rejection: load() discards it through its
+    // own aborted check, so nothing repaints mid-teardown.
+    const unmounted = new AbortController()
+    unmounted.abort()
+    let rejected = false
+    await fetchDevice("marble", unmounted.signal).catch(() => {
+      rejected = true
+    })
+    console.assert(
+      rejected,
+      "an unmount abort still rejects — only a timeout is swallowed",
+    )
+  })()
 }

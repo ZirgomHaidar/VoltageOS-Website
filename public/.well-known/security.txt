@@ -1,0 +1,8 @@
+# VoltageOS security contact (RFC 9116).
+# The project publishes no security mailbox, so the issue tracker is the only
+# real contact. Report privately-sensitive findings via a GitHub Security
+# Advisory on the same repository rather than a public issue.
+Contact: https://github.com/VoltageOS/VoltageOS/issues
+Expires: 2027-09-05T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.voltageos.com/.well-known/security.txt

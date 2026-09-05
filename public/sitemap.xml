@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  No <lastmod>: a hand-written date rots the moment a page changes without it,
+  and a crawler trusting a stale date skips the recrawl. Omitting it lets the
+  crawler use its own heuristics instead of a lie.
+  /devices/download/:codename is deliberately absent - it renders the same
+  Devices page with a dialog open, so listing every codename would submit
+  duplicate URLs for one document.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.voltageos.com/</loc>
+  </url>
+  <url>
+    <loc>https://www.voltageos.com/devices</loc>
+  </url>
+  <url>
+    <loc>https://www.voltageos.com/maintainership</loc>
+  </url>
+</urlset>
