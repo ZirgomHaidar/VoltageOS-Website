@@ -34,7 +34,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/devices" element={<Devices />} />
-        <Route path="/devices/download/:codename" element={<Devices />} />
         <Route path="/maintainership" element={<Maintainership />} />
       </Routes>
       <Footer />

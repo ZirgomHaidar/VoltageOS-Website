@@ -4,6 +4,7 @@ import {
   deviceImage,
   isPlausibleTimestamp,
   parseOta,
+  safeDownload,
   toDevice,
   type Device,
 } from "./devices"
@@ -79,6 +80,9 @@ const readCache = (): Device[] | undefined => {
     return devices.length > 0
       ? devices.map((device) => ({
           ...device,
+          // Re-validated, not trusted: a persisted `download` goes straight into
+          // an href, so it is checked on the way out of storage too.
+          download: safeDownload(device.download),
           image: deviceImage(device.codename),
         }))
       : undefined

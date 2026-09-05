@@ -1,9 +1,9 @@
 /**
  * Device registry — the authoritative list of what this site renders.
  *
- * Keys are lowercase codenames. They are the join key for everything:
- * the OTA feed, the bundled image, and the /devices/download/:codename route.
- * Renaming a key breaks shared links — treat them as permanent.
+ * Keys are lowercase codenames. They are the join key for everything: the OTA
+ * feed's `<codename>.json` and the bundled image. Renaming a key drops both —
+ * treat them as permanent.
  *
  * Values are OPTIONAL overrides. The OTA feed already carries `device`, `oem`
  * and `maintainer`, so leave a value empty (`{}`) unless you want to override
@@ -121,6 +121,8 @@ export type Device = {
   size?: number
   /** Unix epoch seconds, sanity-checked. Formatted at render, never pre-formatted. */
   builtAt: number
+  /** Validated https build URL. Absent means the card renders no link at all. */
+  download?: string
   image?: string
 }
 
@@ -168,6 +170,40 @@ export const parseOta = (payload: unknown): OtaEntry | undefined => {
 }
 
 /**
+ * Every `download` on branch 17 points at sourceforge.net; downloads.sourceforge.net
+ * is the direct-file host its mirror pages redirect to, so both are accepted.
+ */
+const DOWNLOAD_HOSTS = ["sourceforge.net", "downloads.sourceforge.net"]
+
+/**
+ * The feed is remote input, so its `download` never reaches an `href`
+ * unchecked: a `javascript:` or `data:` URL there would be stored XSS on every
+ * card, and an off-host one a redirect to an unsigned zip. Scheme must be
+ * exactly https, the host must be a known build host, and embedded credentials
+ * are refused — `https://user@evil.example` reads as SourceForge in a status
+ * bar. Anything else is undefined, and the card renders no link at all.
+ *
+ * Exported because the session cache is a trust boundary too: a persisted
+ * payload is re-validated on read, not assumed to have come from this pipeline.
+ */
+export const safeDownload = (value: unknown): string | undefined => {
+  if (typeof value !== "string") return undefined
+
+  try {
+    const url = new URL(value)
+    return url.protocol === "https:" &&
+      DOWNLOAD_HOSTS.includes(url.hostname) &&
+      !url.username &&
+      !url.password
+      ? url.href
+      : undefined
+  } catch {
+    // Not a URL at all — `new URL` throws rather than returning undefined.
+    return undefined
+  }
+}
+
+/**
  * The card's avatar comes from `github` in the registry and nowhere else.
  *
  * The feed's `maintainer` is a DISPLAY NAME, and deriving a login from it is
@@ -199,6 +235,9 @@ export const toDevice = (codename: string, entry: OtaEntry): Device => {
     size:
       typeof entry.size === "number" && entry.size > 0 ? entry.size : undefined,
     builtAt: entry.timestamp,
+    // Validated here, not at render: an href is the one place a feed string
+    // becomes executable, so nothing downstream ever sees an unchecked URL.
+    download: safeDownload(entry.download),
     image: deviceImage(codename),
   }
 }
@@ -246,7 +285,7 @@ export const buildSize = (bytes: number) =>
 if (import.meta.env.DEV) {
   console.assert(
     Object.keys(DEVICE_REGISTRY).every((key) => key === key.toLowerCase()),
-    "DEVICE_REGISTRY keys must be lowercase — the :codename route matches raw",
+    "DEVICE_REGISTRY keys must be lowercase — the feed path is <codename>.json",
   )
 
   const sample = {
@@ -264,6 +303,8 @@ if (import.meta.env.DEV) {
         device: "New",
         maintainer: "",
         md5: "y",
+        download:
+          "https://sourceforge.net/projects/voltage-os/files/marble/voltage-6.0-marble.zip/download",
       },
       { nonsense: true },
       { timestamp: 1783502849000, version: "9.9", device: "Milliseconds" },
@@ -304,6 +345,23 @@ if (import.meta.env.DEV) {
   console.assert(
     toDevice("marble", entry).maintainer === "Unknown",
     "blank feed maintainer falls back",
+  )
+  console.assert(
+    toDevice("marble", entry).download ===
+      "https://sourceforge.net/projects/voltage-os/files/marble/voltage-6.0-marble.zip/download",
+    "an https SourceForge download survives validation",
+  )
+  console.assert(
+    safeDownload("javascript:alert(1)") === undefined,
+    "safeDownload rejects a javascript: URL — an href is where a feed string executes",
+  )
+  console.assert(
+    safeDownload("https://evil.example/voltage.zip") === undefined,
+    "safeDownload rejects an off-allowlist host",
+  )
+  console.assert(
+    safeDownload("sourceforge.net/files/x.zip") === undefined,
+    "safeDownload rejects a string that is not a URL",
   )
   // `now` is ms (Date.now), the entry is seconds — mixing them is the likely bug.
   console.assert(

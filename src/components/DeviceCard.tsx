@@ -7,7 +7,28 @@ import {
 } from "../lib/devices"
 import { cn } from "../lib/utils"
 import { cardShell } from "./FeatureCard"
-import SurfaceButton from "./SurfaceButton"
+import ArrowRight from "./ArrowRight"
+import { buttonShell, ButtonWipe } from "./IconButton"
+
+/**
+ * SurfaceButton is not reused here: it renders a plain internal `<a>` with no
+ * `target`/`rel`, and this control now leaves the site for a ~2 GB zip on
+ * SourceForge. Same shell classes, so both states still read as one system.
+ */
+const controlShell =
+  "flex h-[52px] w-full items-center justify-between pr-[22px] pl-[22px] sm:h-[63px] sm:pr-[29px] sm:pl-[30px]"
+
+const controlFace = (label: string) => (
+  <>
+    <ButtonWipe />
+    <span className="text-ink-muted group-hover:text-ink-invert ease-surface text-[length:var(--text-body-md)] font-semibold whitespace-nowrap transition-colors duration-[550ms]">
+      {label}
+    </span>
+    <span className="text-ink-muted group-hover:text-ink-invert ease-surface flex items-center gap-[7px] transition-colors duration-[550ms]">
+      <ArrowRight className="ease-surface transition-[translate] duration-[550ms] group-hover:translate-x-[3px]" />
+    </span>
+  </>
+)
 
 const DeviceCard = ({
   codename,
@@ -18,6 +39,7 @@ const DeviceCard = ({
   md5,
   size,
   builtAt,
+  download,
   image,
   className,
 }: Device & { className?: string }) => {
@@ -117,11 +139,34 @@ const DeviceCard = ({
       </div>
 
       <div className="mt-[32px] sm:mt-[40px]">
-        <SurfaceButton
-          title="View Details"
-          href={`/devices/download/${codename}`}
-          ariaLabel={`View details for ${name}`}
-        />
+        {/* No validated URL means no link: a card with a rejected or missing
+            `download` renders a real disabled <button> rather than an <a> with
+            a dead href, so it is still focusable-by-type and announces its own
+            state instead of lying about being a link. */}
+        {download ? (
+          <a
+            href={download}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Download ${name} build (opens in a new tab)`}
+            className={cn(buttonShell, controlShell)}
+          >
+            {controlFace("Download")}
+          </a>
+        ) : (
+          <button
+            type="button"
+            disabled
+            aria-label={`Download unavailable for ${name}`}
+            className={cn(
+              buttonShell,
+              controlShell,
+              "disabled:pointer-events-none disabled:opacity-40",
+            )}
+          >
+            {controlFace("Download Unavailable")}
+          </button>
+        )}
       </div>
     </article>
   )
