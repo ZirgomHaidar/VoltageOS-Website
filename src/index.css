@@ -73,6 +73,15 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
 
+    /*
+     * The overlay locks scrolling by setting `overflow: hidden` here, which
+     * takes the scrollbar with it. Without a reserved gutter the viewport
+     * widens ~15px on open and narrows again on close — and the close lands
+     * mid-exit-animation, so a vw-sized dialog visibly jumps as it shrinks.
+     * Reserving the space means toggling `overflow` costs no reflow.
+     */
+    scrollbar-gutter: stable;
+
     scroll-padding-top: 96px;
   }
 
