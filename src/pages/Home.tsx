@@ -1,5 +1,7 @@
+import { useState } from "react"
 import { motion } from "motion/react"
 import SurfaceButton from "../components/SurfaceButton"
+import WhatsNewOverlay from "../components/WhatsNewOverlay"
 import BuildsSection from "../components/BuildsSection"
 import DevicesSection from "../components/DevicesSection"
 import FeaturesSection from "../components/FeaturesSection"
@@ -9,6 +11,8 @@ import SandboxSection from "../components/SandboxSection"
 import { rise } from "../lib/motion"
 
 function Home() {
+  const [whatsNew, setWhatsNew] = useState(false)
+
   return (
     <>
       <section className="relative h-[100dvh] min-h-[720px] w-full overflow-x-clip">
@@ -54,13 +58,18 @@ function Home() {
             <SurfaceButton
               title="What's New?"
               meta="Android 17 is out"
-              href="/devices"
+              onClick={() => setWhatsNew(true)}
             />
             <SurfaceButton title="Get VoltageOS" href="/devices" />
           </motion.div>
         </div>
       </div>
       </section>
+
+      <WhatsNewOverlay
+        open={whatsNew}
+        onClose={() => setWhatsNew(false)}
+      />
 
       <DevicesSection />
       <FeaturesSection />
