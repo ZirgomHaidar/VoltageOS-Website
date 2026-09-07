@@ -1,6 +1,7 @@
 import { cn } from "../lib/utils"
 import ArrowRight from "./ArrowRight"
 import { buttonShell, ButtonWipe } from "./IconButton"
+import { Link } from "react-router"
 
 type SurfaceButtonProps = {
   title: string
@@ -8,6 +9,8 @@ type SurfaceButtonProps = {
   href?: string
   /** Override the link's accessible name when `title` repeats across a list. */
   ariaLabel?: string
+  /** Ignored when `href` is set — a link navigates, it does not act. */
+  onClick?: () => void
   className?: string
 }
 
@@ -16,6 +19,7 @@ const SurfaceButton = ({
   meta,
   href,
   ariaLabel,
+  onClick,
   className,
 }: SurfaceButtonProps) => {
   const shell = cn(
@@ -47,11 +51,16 @@ const SurfaceButton = ({
   // rather than navigating, so a destination-less button renders as a real
   // <button> — same shell, still tab-reachable, no phantom navigation.
   return href ? (
-    <a href={href} aria-label={ariaLabel} className={shell}>
+    <Link to={href} aria-label={ariaLabel} className={shell}>
       {content}
-    </a>
+    </Link>
   ) : (
-    <button type="button" aria-label={ariaLabel} className={shell}>
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      onClick={onClick}
+      className={shell}
+    >
       {content}
     </button>
   )
