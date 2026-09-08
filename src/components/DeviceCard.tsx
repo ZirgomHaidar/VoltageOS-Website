@@ -89,13 +89,18 @@ const DeviceCard = ({
         </div>
 
         <div className="mt-[10px] flex items-center gap-[10px]">
-          {/* The circle is the fallback: a 404 avatar hides itself and leaves
-              the surface behind it, so the row never collapses. github.com/<user>.png
-              is used over api.github.com/users/<user> deliberately — the API caps
-              unauthenticated callers at 60 req/hr, which one page of 25 cards
-              would exhaust on a second visit. */}
-          <span className="bg-surface-active size-[28px] shrink-0 overflow-clip rounded-full">
-            {maintainerGitHub ? (
+          {/* Shows maintainer initials when no GitHub is mapped, on 404, or when
+              Data Saver / 2G is active to save round-trips. */}
+          <span className="bg-surface-active text-ink-muted relative flex size-[28px] shrink-0 items-center justify-center overflow-clip rounded-full text-[12px] font-semibold select-none">
+            <span aria-hidden="true">{maintainer.charAt(0).toUpperCase()}</span>
+            {maintainerGitHub &&
+            !(
+              typeof navigator !== "undefined" &&
+              // @ts-expect-error NetworkInformation is experimental
+              (navigator.connection?.saveData ||
+                // @ts-expect-error NetworkInformation is experimental
+                navigator.connection?.effectiveType === "2g")
+            ) ? (
               <img
                 src={`https://github.com/${maintainerGitHub}.png?size=56`}
                 alt=""
@@ -105,7 +110,7 @@ const DeviceCard = ({
                 onError={(event) => {
                   event.currentTarget.style.display = "none"
                 }}
-                className="size-full object-cover"
+                className="absolute inset-0 size-full object-cover"
               />
             ) : null}
           </span>
