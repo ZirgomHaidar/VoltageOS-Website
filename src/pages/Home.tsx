@@ -1,7 +1,6 @@
-import { useState } from "react"
+import { lazy, Suspense, useState } from "react"
 import { motion } from "motion/react"
 import SurfaceButton from "../components/SurfaceButton"
-import WhatsNewOverlay from "../components/WhatsNewOverlay"
 import BuildsSection from "../components/BuildsSection"
 import DevicesSection from "../components/DevicesSection"
 import FeaturesSection from "../components/FeaturesSection"
@@ -10,8 +9,16 @@ import MaintainerSection from "../components/MaintainerSection"
 import SandboxSection from "../components/SandboxSection"
 import { rise } from "../lib/motion"
 
+const WhatsNewOverlay = lazy(() => import("../components/WhatsNewOverlay"))
+
 function Home() {
   const [whatsNew, setWhatsNew] = useState(false)
+  const [hasOpenedWhatsNew, setHasOpenedWhatsNew] = useState(false)
+
+  const handleOpenWhatsNew = () => {
+    setHasOpenedWhatsNew(true)
+    setWhatsNew(true)
+  }
 
   return (
     <>
@@ -58,7 +65,7 @@ function Home() {
             <SurfaceButton
               title="What's New?"
               meta="Android 17 is out"
-              onClick={() => setWhatsNew(true)}
+              onClick={handleOpenWhatsNew}
             />
             <SurfaceButton title="Get VoltageOS" href="/devices" />
           </motion.div>
@@ -66,10 +73,14 @@ function Home() {
       </div>
       </section>
 
-      <WhatsNewOverlay
-        open={whatsNew}
-        onClose={() => setWhatsNew(false)}
-      />
+      {hasOpenedWhatsNew && (
+        <Suspense fallback={null}>
+          <WhatsNewOverlay
+            open={whatsNew}
+            onClose={() => setWhatsNew(false)}
+          />
+        </Suspense>
+      )}
 
       <DevicesSection />
       <FeaturesSection />

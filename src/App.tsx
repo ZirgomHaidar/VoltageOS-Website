@@ -1,22 +1,26 @@
-import { useEffect } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import Lenis from "lenis"
 import { MotionConfig } from "motion/react"
 import { Route, Routes } from "react-router"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
+import ScrollToTop from "./components/ScrollToTop"
 import Home from "./pages/Home"
-import Devices from "./pages/Devices"
-import Maintainership from "./pages/Maintainership"
+
+const Devices = lazy(() => import("./pages/Devices"))
+const Maintainership = lazy(() => import("./pages/Maintainership"))
+const Privacy = lazy(() => import("./pages/Privacy"))
 
 function App() {
   useEffect(() => {
+    // Touch/mobile devices have native 120Hz momentum scrolling; bypassing
+    // Lenis saves battery, CPU, and prevents frame drops on mobile.
+    if (window.matchMedia("(pointer: coarse)").matches) return
+
     const lenis = new Lenis({
       autoRaf: true,
       lerp: 0.11,
       anchors: true,
-      // Smooth-scroll hijacking is a vestibular trigger, so the visitor's OS
-      // setting wins. Lenis reads its media query per frame rather than once at
-      // construction, so toggling the preference mid-session takes effect.
       respectReducedMotion: true,
     })
 
@@ -24,18 +28,17 @@ function App() {
   }, [])
 
   return (
-    // motion does not consult prefers-reduced-motion unless asked, and every
-    // variant in lib/motion.ts animates y or scale. "user" drops those
-    // transforms while leaving opacity fades, which is the accessible reading
-    // of the design rather than an unanimated one — and it covers all 14
-    // animated components without touching them.
     <MotionConfig reducedMotion="user">
+      <ScrollToTop />
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/devices" element={<Devices />} />
-        <Route path="/maintainership" element={<Maintainership />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-screen" />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/devices" element={<Devices />} />
+          <Route path="/maintainership" element={<Maintainership />} />
+          <Route path="/privacy" element={<Privacy />} />
+        </Routes>
+      </Suspense>
       <Footer />
     </MotionConfig>
   )

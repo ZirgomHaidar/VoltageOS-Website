@@ -18,4 +18,14 @@ export default defineConfig(({ command }) => ({
   // delete the DEV-guarded console.assert self-checks in src/lib/devices.ts and
   // src/lib/useCarousel.ts, silently turning them into no-ops instead of failing loudly.
   esbuild: command === "build" ? { drop: ["console", "debugger"] } : undefined,
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-motion": ["motion", "motion/react"],
+          "vendor-lenis": ["lenis"],
+        },
+      },
+    },
+  },
 }))

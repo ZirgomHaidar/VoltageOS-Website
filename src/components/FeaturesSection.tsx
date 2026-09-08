@@ -4,10 +4,10 @@ import { useCarousel } from "../lib/useCarousel"
 import IconButton from "../components/IconButton"
 import type { Feature } from "../components/FeatureCard"
 import { inView, riseIn, stagger } from "../lib/motion"
-import card1 from "../assets/features/card1.png"
-import card2 from "../assets/features/card2.png"
-import card3 from "../assets/features/card3.png"
-import card4 from "../assets/features/card4.png"
+import card1 from "../assets/features/card1.webp"
+import card2 from "../assets/features/card2.webp"
+import card3 from "../assets/features/card3.webp"
+import card4 from "../assets/features/card4.webp"
 
 const features: Feature[] = [
   {

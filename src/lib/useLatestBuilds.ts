@@ -46,6 +46,22 @@ const CACHE_MAX_AGE_MS = 86_400_000
 
 type CachedBuilds = { at: number; devices: Device[] }
 
+import fallbackBuildsData from "./builds-fallback.json"
+
+const getFallbackDevices = (): Device[] => {
+  try {
+    return (fallbackBuildsData as Array<{ codename: string; data: unknown }>)
+      .map(({ codename, data }) => {
+        const entry = parseOta(data)
+        return entry ? toDevice(codename, entry) : undefined
+      })
+      .filter((d): d is Device => !!d)
+      .sort((a, b) => b.builtAt - a.builtAt)
+  } catch {
+    return []
+  }
+}
+
 /**
  * Repaints the grid from the last good fetch so navigating home → /devices →
  * home never shows skeletons twice. The network request still fires; this only
@@ -57,40 +73,40 @@ type CachedBuilds = { at: number; devices: Device[] }
  */
 const readCache = (): Device[] | undefined => {
   try {
-    const raw = sessionStorage.getItem(CACHE_KEY)
-    if (!raw) return undefined
+    const raw = localStorage.getItem(CACHE_KEY)
+    if (raw) {
+      const cached = JSON.parse(raw) as CachedBuilds
+      if (
+        Array.isArray(cached?.devices) &&
+        isPlausibleTimestamp(cached.at / 1000) &&
+        Date.now() - cached.at <= CACHE_MAX_AGE_MS
+      ) {
+        const devices = cached.devices.filter(
+          (device): device is Device =>
+            !!device &&
+            typeof device.codename === "string" &&
+            typeof device.name === "string" &&
+            typeof device.version === "string" &&
+            isPlausibleTimestamp(device.builtAt),
+        )
 
-    const cached = JSON.parse(raw) as CachedBuilds
-    if (!Array.isArray(cached?.devices)) return undefined
-    if (!isPlausibleTimestamp(cached.at / 1000)) return undefined
-    if (Date.now() - cached.at > CACHE_MAX_AGE_MS) return undefined
-
-    // Re-validated rather than trusted. Persisted state is a trust boundary the
-    // same as the network is, and the same guard that keeps a malformed feed
-    // entry local to its card has to apply on the way back out of storage.
-    const devices = cached.devices.filter(
-      (device): device is Device =>
-        !!device &&
-        typeof device.codename === "string" &&
-        typeof device.name === "string" &&
-        typeof device.version === "string" &&
-        isPlausibleTimestamp(device.builtAt),
-    )
-
-    return devices.length > 0
-      ? devices.map((device) => ({
-          ...device,
-          // Re-validated, not trusted: a persisted `download` goes straight into
-          // an href, so it is checked on the way out of storage too.
-          download: safeDownload(device.download),
-          image: deviceImage(device.codename),
-        }))
-      : undefined
+        if (devices.length > 0) {
+          return devices.map((device) => ({
+            ...device,
+            download: safeDownload(device.download),
+            image: deviceImage(device.codename),
+          }))
+        }
+      }
+    }
   } catch {
     // Malformed JSON, or storage unavailable (Safari private browsing throws
     // on access, not just on write).
-    return undefined
   }
+
+  // First cold start on 2G/3G/offline: return bundled snapshot for instant 0ms FCP
+  const fallbacks = getFallbackDevices()
+  return fallbacks.length > 0 ? fallbacks : undefined
 }
 
 const writeCache = (devices: Device[]) => {
@@ -100,7 +116,7 @@ const writeCache = (devices: Device[]) => {
       // JSON.stringify drops undefined values, so this omits the key outright.
       devices: devices.map((device) => ({ ...device, image: undefined })),
     }
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(payload))
+    localStorage.setItem(CACHE_KEY, JSON.stringify(payload))
   } catch {
     // Quota or blocked storage. The cache is an optimization, never a
     // requirement — a failed write costs a skeleton, not the grid.
@@ -163,12 +179,20 @@ const fetchDevice = async (
   }
 }
 
+const BATCH_SIZE = 5
+
 export const fetchBuilds = async (signal: AbortSignal) => {
-  const settled = await Promise.allSettled(
-    Object.keys(DEVICE_REGISTRY).map((codename) =>
-      fetchDevice(codename, signal),
-    ),
-  )
+  const codenames = Object.keys(DEVICE_REGISTRY)
+  const settled: PromiseSettledResult<Device | undefined>[] = []
+
+  for (let i = 0; i < codenames.length; i += BATCH_SIZE) {
+    if (signal.aborted) break
+    const batch = codenames.slice(i, i + BATCH_SIZE)
+    const results = await Promise.allSettled(
+      batch.map((codename) => fetchDevice(codename, signal)),
+    )
+    settled.push(...results)
+  }
 
   const devices = settled
     .flatMap((result) =>

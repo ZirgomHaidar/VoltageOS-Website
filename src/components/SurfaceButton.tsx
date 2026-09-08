@@ -47,22 +47,37 @@ const SurfaceButton = ({
     </>
   )
 
-  // An anchor with no `href` is not focusable, and `href="#"` scrolls to the top
-  // rather than navigating, so a destination-less button renders as a real
-  // <button> — same shell, still tab-reachable, no phantom navigation.
-  return href ? (
+  if (!href) {
+    return (
+      <button
+        type="button"
+        aria-label={ariaLabel}
+        onClick={onClick}
+        className={shell}
+      >
+        {content}
+      </button>
+    )
+  }
+
+  if (/^https?:\/\//i.test(href)) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={ariaLabel}
+        className={shell}
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return (
     <Link to={href} aria-label={ariaLabel} className={shell}>
       {content}
     </Link>
-  ) : (
-    <button
-      type="button"
-      aria-label={ariaLabel}
-      onClick={onClick}
-      className={shell}
-    >
-      {content}
-    </button>
   )
 }
 

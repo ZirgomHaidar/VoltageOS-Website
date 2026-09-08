@@ -1,0 +1,164 @@
+[
+  {
+    "codename": "marble",
+    "data": {
+      "response": [
+        {
+          "maintainer": "Talha",
+          "oem": "Xiaomi",
+          "device": "POCO F5",
+          "filename": "voltage-5.9-marble-20260522-0825-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/marble/voltage-5.9-marble-20260522-0825-OFFICIAL.zip/download",
+          "timestamp": 1779438245,
+          "md5": "057e7efd59d4354a22a135108dcc7e4a",
+          "size": 2067079910,
+          "version": "5.9"
+        }
+      ]
+    }
+  },
+  {
+    "codename": "miatoll",
+    "data": {
+      "response": [
+        {
+          "maintainer": "iHSAN",
+          "oem": "Xiaomi",
+          "device": "Redmi Note 9S / 9 Pro / 9 Pro Max / 10 Lite / POCO M2 Pro",
+          "filename": "voltage-6.0-miatoll-20260822-0718-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/miatoll/voltage-6.0-miatoll-20260822-0718-OFFICIAL.zip/download",
+          "timestamp": 1787382601,
+          "md5": "c0e7cb8cfe350ba87ce41416d4bab12f",
+          "size": 1880887340,
+          "version": "6.0"
+        }
+      ]
+    }
+  },
+  {
+    "codename": "peridot",
+    "data": {
+      "response": [
+        {
+          "maintainer": "GuidixX",
+          "oem": "Xiaomi",
+          "device": "POCO F6 / Redmi Turbo 3",
+          "filename": "voltage-5.11-EOL-peridot-20260718-1524-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/peridot/voltage-5.11-EOL-peridot-20260718-1524-OFFICIAL.zip/download",
+          "timestamp": 1784388176,
+          "md5": "c158ffdccc06932e60bee4239e589141",
+          "size": 2839973682,
+          "version": "5.11-EOL"
+        }
+      ]
+    }
+  },
+  {
+    "codename": "raphael",
+    "data": {
+      "response": [
+        {
+          "maintainer": "Pranav Temkar",
+          "oem": "Xiaomi",
+          "device": "Redmi K20 Pro",
+          "filename": "voltage-6.0-raphael-20260831-0247-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/raphael/voltage-6.0-raphael-20260831-0247-OFFICIAL.zip/download",
+          "timestamp": 1788144062,
+          "md5": "d888865552573adfd153730efcdc28d7",
+          "size": 1850833398,
+          "version": "6.0"
+        }
+      ]
+    }
+  },
+  {
+    "codename": "sweet",
+    "data": {
+      "response": [
+        {
+          "maintainer": "Niranjan BR",
+          "oem": "Xiaomi",
+          "device": "Redmi Note 10 Pro / 10 Pro Max",
+          "filename": "voltage-6.0-sweet-20260828-0904-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/sweet/voltage-6.0-sweet-20260828-0904-OFFICIAL.zip/download",
+          "timestamp": 1787907350,
+          "md5": "b04aa8d69bc73749e5dfbf238c5d283b",
+          "size": 1847106940,
+          "version": "6.0"
+        }
+      ]
+    }
+  },
+  {
+    "codename": "veux",
+    "data": {
+      "response": [
+        {
+          "maintainer": "Frost",
+          "oem": "Xiaomi",
+          "device": "Redmi Note 11 Pro 5G / 11 Pro+ 5G / 11E Pro / POCO X4 Pro 5G",
+          "filename": "voltage-6.0-veux-20260822-1554-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/veux/voltage-6.0-veux-20260822-1554-OFFICIAL.zip/download",
+          "timestamp": 1787413335,
+          "md5": "f24cda91f6fdc95b1bb6c22b784d748c",
+          "size": 1522522482,
+          "version": "6.0"
+        }
+      ]
+    }
+  },
+  {
+    "codename": "violet",
+    "data": {
+      "response": [
+        {
+          "maintainer": "Frost",
+          "oem": "Xiaomi",
+          "device": "Redmi Note 7 Pro",
+          "filename": "voltage-6.0-violet-20260823-0910-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/violet/voltage-6.0-violet-20260823-0910-OFFICIAL.zip/download",
+          "timestamp": 1787475391,
+          "md5": "53a553092f75bea8e6472bbdc5e41cd0",
+          "size": 1624561740,
+          "version": "6.0"
+        }
+      ]
+    }
+  },
+  {
+    "codename": "z2_plus",
+    "data": {
+      "response": [
+        {
+          "maintainer": "Dmitrii",
+          "oem": "ZUK",
+          "device": "Z2 Plus",
+          "filename": "voltage-5.11-EOL-z2_plus-20260709-1023-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/z2_plus/voltage-5.11-EOL-z2_plus-20260709-1023-OFFICIAL.zip/download",
+          "timestamp": 1783592249,
+          "md5": "8bfeb7a0364fb1fadd2760f2a1333eef",
+          "size": 1270018916,
+          "version": "5.11-EOL"
+        }
+      ]
+    }
+  },
+  {
+    "codename": "ziti",
+    "data": {
+      "response": [
+        {
+          "maintainer": "okkotsu",
+          "oem": "OnePlus",
+          "device": "OnePlus Nord CE3 5G",
+          "filename": "voltage-6.0-ziti-20260830-1513-OFFICIAL.zip",
+          "download": "https://sourceforge.net/projects/voltage-os/files/ziti/voltage-6.0-ziti-20260830-1513-OFFICIAL.zip/download",
+          "timestamp": 1788101769,
+          "md5": "29adbb40c57b3b5b143cf93de1e98fe0",
+          "size": 2335769717,
+          "version": "6.0"
+        }
+      ]
+    }
+  }
+]

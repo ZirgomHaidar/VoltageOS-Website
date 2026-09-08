@@ -1,7 +1,7 @@
 import { motion } from "motion/react"
 import SurfaceButton from "./SurfaceButton"
 import { inView, riseIn, scaleIn, stagger } from "../lib/motion"
-import frame from "../assets/sandbox/frame.png"
+import frame from "../assets/sandbox/frame.webp"
 
 // ponytail: the illustration is one 3x PNG export of Figma 664:2 — bezel,
 // blurred glass, camera cutout, dashed rail and both icon cards are baked in,

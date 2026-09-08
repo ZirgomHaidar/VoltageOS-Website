@@ -59,7 +59,7 @@ export const DEVICE_REGISTRY: Record<string, DeviceMeta> = {
   phoenix: { name: "Poco X2" },
   porsche: { name: "Realme GT 2" },
   r5x: { name: "Realme 5 / 5s / 5i" },
-  raphael: { github: "PptO07" }, // feed says "Pranav Temkar"
+  raphael: { name: "Redmi K20 Pro", github: "PptO07" }, // feed says "Pranav Temkar"
   spacewar: {},
   star: {}, // upstream reports "star"
   sunny: { name: "Redmi Note 10" },
@@ -77,17 +77,18 @@ export const DEVICE_REGISTRY: Record<string, DeviceMeta> = {
 // up with no code change. Eager resolves URLs at build (not bytes), so the
 // <img loading="lazy"> still governs what a visitor downloads. A codename with
 // no file renders the placeholder block instead.
-const IMAGES = import.meta.glob<string>("../assets/devices/*.png", {
+const IMAGES = import.meta.glob<string>("../assets/devices/*.{webp,png}", {
   eager: true,
   import: "default",
 })
 
 /**
- * Exported for the session cache: a persisted `image` is a build-hashed URL
+ * Exported for the persistent cache: a persisted `image` is a build-hashed URL
  * that 404s after the next deploy, so it is stripped on write and re-resolved
  * through here on read.
  */
 export const deviceImage = (codename: string): string | undefined =>
+  IMAGES[`../assets/devices/${codename}.webp`] ??
   IMAGES[`../assets/devices/${codename}.png`]
 
 /** Feed entry — https://github.com/VoltageOS/android_vendor_voltageota */

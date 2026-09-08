@@ -144,9 +144,13 @@ const WhatsNewOverlay = ({ open, onClose }: WhatsNewOverlayProps) => {
               </div>
 
               <img
-                alt=""
+                alt="VoltageOS Android 17 preview"
+                width={1280}
+                height={675}
+                loading="lazy"
+                decoding="async"
                 className="rounded-surface mt-[18px] aspect-[1280/675] w-full shrink-0 object-cover"
-                src="/images/whats-new-hero.png"
+                src="/images/whats-new-hero.webp"
               />
 
               <h2
@@ -158,16 +162,25 @@ const WhatsNewOverlay = ({ open, onClose }: WhatsNewOverlayProps) => {
 
               <p className="mt-[14px] flex flex-wrap items-center gap-x-[10px] gap-y-[4px]">
                 <span className="text-ink text-[length:var(--text-body-sm)] font-semibold">
-                  Author Name
+                  VoltageOS Team
                 </span>
                 <span
                   aria-hidden="true"
                   className="bg-ink-faint size-[4px] rounded-full"
                 />
                 <span className="text-ink-muted text-[length:var(--text-meta)] font-medium tracking-[var(--tracking-body)]">
-                  Lead Maintainer
+                  Core Maintainers
                 </span>
               </p>
+
+              <div className="text-ink-muted mt-[18px] flex flex-col gap-[12px] text-[15px] leading-[1.4] font-normal tracking-[var(--tracking-body)] sm:text-[16px]">
+                <p>
+                  VoltageOS 6.0 based on Android 17 brings refined sandboxed Google Play support, improved power management profiles, and the latest upstream security patches.
+                </p>
+                <p>
+                  Built for security and privacy without sacrificing speed or compatibility. Check the Devices section for initial branch-17 builds.
+                </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

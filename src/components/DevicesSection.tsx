@@ -1,10 +1,10 @@
 import { motion } from "motion/react"
 import asus from "../assets/brands/slot1.png"
-import brand2 from "../assets/brands/slot2.png"
-import brand3 from "../assets/brands/slot3.png"
-import brand4 from "../assets/brands/slot4.png"
-import brand5 from "../assets/brands/slot5.png"
-import brand6 from "../assets/brands/slot6.png"
+import brand2 from "../assets/brands/slot2.webp"
+import brand3 from "../assets/brands/slot3.webp"
+import brand4 from "../assets/brands/slot4.webp"
+import brand5 from "../assets/brands/slot5.webp"
+import brand6 from "../assets/brands/slot6.webp"
 import { inView, riseIn, riseInSm, stagger, staggerFast } from "../lib/motion"
 
 const brands = [asus, brand2, brand3, brand4, brand5, brand6]

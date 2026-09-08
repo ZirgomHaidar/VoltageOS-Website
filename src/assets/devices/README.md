@@ -13,10 +13,10 @@ breaking.
 ## Filename rules
 
 - Lowercase, matching the registry key character for character. The lookup is
-  a literal path join, so `Raphael.png` or `Z2_Plus.png` silently resolves to
+  a literal path join, so `Raphael.webp` or `Z2_Plus.webp` silently resolves to
   `undefined` and you get the placeholder with no error.
-- `.png` only — the glob pattern is `*.png`.
-- Underscores kept as-is: `z2_plus.png`, not `z2-plus.png`.
+- `.webp` (preferred for low bandwidth) or `.png`.
+- Underscores kept as-is: `z2_plus.webp`, not `z2-plus.webp`.
 
 ## Export spec
 
