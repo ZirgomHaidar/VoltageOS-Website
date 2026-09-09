@@ -49,14 +49,22 @@ const MaintainerSection = () => {
           and hidden behind it. */}
       <div
         aria-hidden="true"
-        style={{
-          backgroundImage: blur,
-          backgroundSize: "152.083vw 152.083vw",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
-        }}
         className="pointer-events-none absolute top-[-22.5vw] bottom-0 left-1/2 -z-10 w-[152.083vw] -translate-x-1/2"
-      />
+      >
+        <motion.div
+          initial={{ y: 64, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            backgroundImage: blur,
+            backgroundSize: "152.083vw 152.083vw",
+            backgroundPosition: "center top",
+            backgroundRepeat: "no-repeat",
+          }}
+          className="h-full w-full"
+        />
+      </div>
 
       <div
         aria-hidden="true"
