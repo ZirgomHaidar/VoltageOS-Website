@@ -3,6 +3,7 @@ import CardCarousel from "../components/CardCarousel"
 import { useCarousel } from "../lib/useCarousel"
 import IconButton from "../components/IconButton"
 import type { Feature } from "../components/FeatureCard"
+import LetterReveal from "../components/LetterReveal"
 import { inView, riseIn, stagger } from "../lib/motion"
 import card1 from "../assets/features/card1.webp"
 import card2 from "../assets/features/card2.webp"
@@ -52,23 +53,28 @@ const FeaturesSection = () => {
           variants={stagger}
           className="flex flex-col gap-[40px] xl:flex-row xl:items-start xl:justify-between"
         >
-          <div className="flex max-w-[762px] flex-col">
-            <motion.p
-              variants={riseIn}
+          <motion.div variants={stagger} className="flex max-w-[762px] flex-col">
+            <LetterReveal
+              as="p"
+              text="Why VoltageOS?"
+              delay={0.06}
+              staggerDelay={0.02}
               className="text-ink-faint text-[17px] leading-[1.2] font-semibold whitespace-nowrap sm:text-[length:var(--text-body-lg)]"
-            >
-              Why VoltageOS?
-            </motion.p>
+            />
 
-            <motion.h2
-              variants={riseIn}
+            <LetterReveal
+              as="h2"
+              delay={0.2}
+              staggerDelay={0.022}
               className="text-ink-faint mt-[18px] text-[32px] leading-[1.39] font-semibold sm:text-[42px] lg:text-[length:var(--text-h2)]"
-            >
-              More <span className="text-ink">Control</span> Over The{" "}
-              <span className="text-ink">Android</span>{" "}
-              <br className="hidden lg:inline" />
-              You Use Every Day.
-            </motion.h2>
+              segments={[
+                { text: "More " },
+                { text: "Control", className: "text-ink" },
+                { text: " Over The " },
+                { text: "Android", className: "text-ink" },
+                { text: "\nYou Use Every Day." },
+              ]}
+            />
 
             <motion.p
               variants={riseIn}
@@ -78,7 +84,7 @@ const FeaturesSection = () => {
               on it with a focused set of features designed around privacy,
               security, performance and everyday usability.
             </motion.p>
-          </div>
+          </motion.div>
 
           <motion.div
             variants={riseIn}

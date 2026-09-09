@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import SurfaceButton from "./SurfaceButton"
+import LetterReveal from "./LetterReveal"
 import { inView, riseIn, stagger } from "../lib/motion"
 
 /**
@@ -77,21 +78,25 @@ const MaintainerSection = () => {
           variants={stagger}
           className="mx-auto flex max-w-[762px] flex-col items-center text-center"
         >
-          <motion.p
-            variants={riseIn}
+          <LetterReveal
+            as="p"
+            text="Build With Us"
+            delay={0.06}
+            staggerDelay={0.02}
             className="text-ink-faint text-[17px] leading-[1.2] font-semibold whitespace-nowrap sm:text-[length:var(--text-body-lg)]"
-          >
-            Build With Us
-          </motion.p>
+          />
 
-          <motion.h2
-            variants={riseIn}
+          <LetterReveal
+            as="h2"
+            delay={0.22}
+            staggerDelay={0.024}
             className="text-ink-faint mt-[18px] text-[32px] leading-[1.39] font-semibold sm:text-[42px] lg:text-[length:var(--text-h2)]"
-          >
-            Bring <span className="text-ink">VoltageOS</span>
-            <br />
-            to more devices.
-          </motion.h2>
+            segments={[
+              { text: "Bring " },
+              { text: "VoltageOS", className: "text-ink" },
+              { text: "\nto more devices." },
+            ]}
+          />
 
           <motion.p
             variants={riseIn}

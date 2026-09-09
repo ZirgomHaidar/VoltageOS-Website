@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import SurfaceButton from "./SurfaceButton"
+import LetterReveal from "./LetterReveal"
 import { inView, riseIn, scaleIn, stagger } from "../lib/motion"
 import frame from "../assets/sandbox/frame.webp"
 
@@ -57,22 +58,30 @@ const SandboxSection = () => {
           {/* Below lg the proportional copy would hit its readable floor and
               overflow the bezel, so the art is off and this falls back to a
               plain left-aligned stack, matching Features/Foundation. */}
-          <div className="flex max-w-[762px] flex-col items-start text-left lg:max-w-none lg:absolute lg:inset-0 lg:items-center lg:pt-[30.17%] lg:text-center">
-            <motion.p
-              variants={riseIn}
+          <motion.div
+            variants={stagger}
+            className="flex max-w-[762px] flex-col items-start text-left lg:absolute lg:inset-0 lg:max-w-none lg:items-center lg:pt-[30.17%] lg:text-center"
+          >
+            <LetterReveal
+              as="p"
+              text="Google Play, with more control"
+              delay={0.06}
+              staggerDelay={0.02}
               className="text-ink-faint text-[17px] leading-[1.2] font-semibold sm:text-[length:var(--text-body-lg)] lg:text-[1.314cqw]"
-            >
-              Google Play, with more control
-            </motion.p>
+            />
 
-            <motion.h2
-              variants={riseIn}
-              className="text-ink-faint mt-[18px] text-[28px] leading-[1.39] font-semibold capitalize sm:text-[38px] lg:mt-[1.08%] lg:text-[2.688cqw]"
-            >
-              Keep the apps you <span className="text-ink">need</span>
-              <br />
-              Limit what they can <span className="text-ink">access</span>
-            </motion.h2>
+            <LetterReveal
+              as="h2"
+              delay={0.2}
+              staggerDelay={0.022}
+              className="text-ink-faint mt-[18px] text-[28px] leading-[1.39] font-semibold sm:text-[38px] lg:mt-[1.08%] lg:text-[2.688cqw]"
+              segments={[
+                { text: "Keep The Apps You " },
+                { text: "Need", className: "text-ink" },
+                { text: "\nLimit What They Can " },
+                { text: "Access", className: "text-ink" },
+              ]}
+            />
 
             <motion.p
               variants={riseIn}
@@ -91,7 +100,7 @@ const SandboxSection = () => {
             >
               <SurfaceButton title="Learn more about privacy" href="/privacy" />
             </motion.div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

@@ -3,6 +3,7 @@ import { EASE, inView, riseIn, stagger } from "../lib/motion"
 import { useLatestBuilds } from "../lib/useLatestBuilds"
 import DeviceCard, { DeviceCardSkeleton } from "./DeviceCard"
 import SurfaceButton from "./SurfaceButton"
+import LetterReveal from "./LetterReveal"
 
 /** The homepage teases the newest three; /devices lists them all. */
 const TEASE = 3
@@ -26,22 +27,26 @@ const BuildsSection = () => {
               immediately, it detaches (once: true) while only skeletons exist,
               and cards mounting later inherit hidden with no trigger left. */}
           <motion.div {...inView} variants={stagger} className="flex flex-col">
-            <div className="flex max-w-[762px] flex-col">
-              <motion.p
-                variants={riseIn}
+            <motion.div variants={stagger} className="flex max-w-[762px] flex-col">
+              <LetterReveal
+                as="p"
+                text="Latest Builds"
+                delay={0.06}
+                staggerDelay={0.02}
                 className="text-ink-faint text-[17px] leading-[1.2] font-semibold whitespace-nowrap sm:text-[length:var(--text-body-lg)]"
-              >
-                Latest Builds
-              </motion.p>
+              />
 
-              <motion.h2
-                variants={riseIn}
+              <LetterReveal
+                as="h2"
+                delay={0.2}
+                staggerDelay={0.022}
                 className="text-ink-faint mt-[18px] text-[32px] leading-[1.39] font-semibold sm:text-[42px] lg:text-[length:var(--text-h2)]"
-              >
-                <span className="text-ink">Fresh</span> Builds
-                <br />
-                Ready For Your <span className="text-ink">Device</span>
-              </motion.h2>
+                segments={[
+                  { text: "Fresh", className: "text-ink" },
+                  { text: " Builds\nReady For Your " },
+                  { text: "Device", className: "text-ink" },
+                ]}
+              />
 
               <motion.p
                 variants={riseIn}
@@ -50,7 +55,7 @@ const BuildsSection = () => {
                 Explore the latest VoltageOS builds for supported devices, with
                 release details, maintainers and download options.
               </motion.p>
-            </div>
+            </motion.div>
 
             {/* Sits between the copy and the grid, so it reads as the action the
                 grid answers to. Same 418px cap SurfaceButton gets in the Hero

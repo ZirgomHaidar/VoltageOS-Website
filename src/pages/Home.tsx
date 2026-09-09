@@ -8,6 +8,7 @@ import FoundationSection from "../components/FoundationSection"
 import MaintainerSection from "../components/MaintainerSection"
 import SandboxSection from "../components/SandboxSection"
 import HeroSpotlight from "../components/HeroSpotlight"
+import LetterReveal from "../components/LetterReveal"
 import { rise } from "../lib/motion"
 
 const WhatsNewOverlay = lazy(() => import("../components/WhatsNewOverlay"))
@@ -37,20 +38,22 @@ function Home() {
       <div className="absolute inset-x-0 bottom-[20.93%] px-6 sm:right-[6.615%] sm:left-[6.198%] sm:px-[46px]">
         <div className="flex flex-col items-start justify-between gap-10 2xl:flex-row 2xl:items-end">
           <div className="flex max-w-[604px] flex-col">
-            <motion.p
-              {...rise(0)}
+            <LetterReveal
+              as="p"
+              text="100% Secured . 100% Open Source"
+              delay={0.08}
+              staggerDelay={0.018}
               className="text-ink-faint text-[17px] leading-[1.2] font-semibold whitespace-nowrap sm:text-[length:var(--text-body-lg)]"
-            >
-              100% Secured . 100% Open Source
-            </motion.p>
-            <motion.h1
-              {...rise(0.14)}
+            />
+            <LetterReveal
+              as="h1"
+              text="Android, with your privacy in mind."
+              delay={0.32}
+              staggerDelay={0.024}
               className="text-ink mt-[29px] text-[36px] leading-[1.1] font-semibold sm:mt-[49px] sm:text-[52px] lg:text-[68px] 2xl:text-[length:var(--text-hero)]"
-            >
-              Android, with your privacy in mind.
-            </motion.h1>
+            />
             <motion.p
-              {...rise(0.28)}
+              {...rise(0.85)}
               className="text-ink-muted mt-[16px] max-w-[598px] text-[16px] leading-[1.2] font-normal tracking-[var(--tracking-body)] sm:mt-[24px] sm:text-[18px] 2xl:text-[length:var(--text-body-lg)]"
             >
               VoltageOS is an open source Android operating system built for
@@ -61,7 +64,7 @@ function Home() {
           </div>
 
           <motion.div
-            {...rise(0.42)}
+            {...rise(1.05)}
             className="flex w-full max-w-[418px] flex-col gap-[14px] 2xl:w-[418px] 2xl:max-w-none"
           >
             <SurfaceButton

@@ -28,7 +28,7 @@ function App() {
   }, [])
 
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig reducedMotion="never">
       <ScrollToTop />
       <Navbar />
       <Suspense fallback={<div className="min-h-screen" />}>

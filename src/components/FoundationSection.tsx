@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import SurfaceButton from "./SurfaceButton"
+import LetterReveal from "./LetterReveal"
 import { inView, riseIn, scaleIn, stagger } from "../lib/motion"
 import androidLogo from "../assets/android-17-logo.svg"
 
@@ -17,22 +18,27 @@ const FoundationSection = () => {
           variants={stagger}
           className="flex flex-col gap-[40px] xl:flex-row xl:items-center xl:justify-between"
         >
-          <div className="flex max-w-[762px] flex-col">
-            <motion.p
-              variants={riseIn}
+          <motion.div variants={stagger} className="flex max-w-[762px] flex-col">
+            <LetterReveal
+              as="p"
+              text="The Foundation"
+              delay={0.06}
+              staggerDelay={0.02}
               className="text-ink-faint text-[17px] leading-[1.2] font-semibold whitespace-nowrap sm:text-[length:var(--text-body-lg)]"
-            >
-              The Foundation
-            </motion.p>
+            />
 
-            <motion.h2
-              variants={riseIn}
+            <LetterReveal
+              as="h2"
+              delay={0.2}
+              staggerDelay={0.022}
               className="text-ink-faint mt-[18px] text-[32px] leading-[1.39] font-semibold sm:text-[42px] lg:text-[length:var(--text-h2)]"
-            >
-              Built on <span className="text-ink">Android</span>
-              <br />
-              Open to <span className="text-ink">Everyone</span>
-            </motion.h2>
+              segments={[
+                { text: "Built on " },
+                { text: "Android", className: "text-ink" },
+                { text: "\nOpen to " },
+                { text: "Everyone", className: "text-ink" },
+              ]}
+            />
 
             <motion.p
               variants={riseIn}
@@ -60,7 +66,7 @@ const FoundationSection = () => {
                 href="https://github.com/VoltageOS"
               />
             </motion.div>
-          </div>
+          </motion.div>
 
           <motion.img
             variants={scaleIn}
