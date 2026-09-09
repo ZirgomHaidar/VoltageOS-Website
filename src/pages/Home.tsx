@@ -7,6 +7,7 @@ import FeaturesSection from "../components/FeaturesSection"
 import FoundationSection from "../components/FoundationSection"
 import MaintainerSection from "../components/MaintainerSection"
 import SandboxSection from "../components/SandboxSection"
+import HeroSpotlight from "../components/HeroSpotlight"
 import { rise } from "../lib/motion"
 
 const WhatsNewOverlay = lazy(() => import("../components/WhatsNewOverlay"))
@@ -23,6 +24,7 @@ function Home() {
   return (
     <>
       <section className="relative h-[100dvh] min-h-[720px] w-full overflow-x-clip">
+      <HeroSpotlight />
       <div
         aria-hidden="true"
         className="border-hairline pointer-events-none absolute inset-x-0 top-[11.019%] bottom-[11.667%] border-y"
