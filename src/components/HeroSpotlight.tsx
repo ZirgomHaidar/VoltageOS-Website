@@ -13,12 +13,8 @@ export const HeroSpotlight = () => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const isPointerFine = window.matchMedia("(pointer: fine)")
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    )
-
-    if (!isPointerFine.matches || prefersReducedMotion.matches) return
+    // Only bind on desktop pointer devices
+    if (!window.matchMedia("(pointer: fine)").matches) return
 
     const container = containerRef.current
     if (!container) return
@@ -28,7 +24,7 @@ export const HeroSpotlight = () => {
     const handleMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect()
 
-      if (e.clientY < rect.top - 80 || e.clientY > rect.bottom + 80) {
+      if (e.clientY < rect.top - 100 || e.clientY > rect.bottom + 100) {
         container.style.setProperty("--opacity", "0")
         return
       }
@@ -68,7 +64,7 @@ export const HeroSpotlight = () => {
           detach()
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0.05 },
     )
 
     observer.observe(container)
@@ -90,29 +86,29 @@ export const HeroSpotlight = () => {
           "--opacity": "0",
         } as React.CSSProperties
       }
-      className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block"
+      className="pointer-events-none absolute inset-0 hidden overflow-hidden md:block"
     >
       {/* Diffused ambient spotlight */}
       <div
-        className="ease-surface absolute inset-0 transition-opacity duration-700"
+        className="ease-surface absolute inset-0 transition-opacity duration-500"
         style={{
           opacity: "var(--opacity)",
           background:
-            "radial-gradient(550px circle at var(--x) var(--y), rgba(255, 255, 255, 0.032), transparent 75%)",
+            "radial-gradient(600px circle at var(--x) var(--y), rgba(255, 255, 255, 0.055), transparent 70%)",
         }}
       />
       {/* Revealed precision micro-grid */}
       <div
-        className="ease-surface absolute inset-0 transition-opacity duration-700"
+        className="ease-surface absolute inset-0 transition-opacity duration-500"
         style={{
           opacity: "var(--opacity)",
           backgroundImage:
-            "radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px)",
+            "radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px)",
           backgroundSize: "28px 28px",
           maskImage:
-            "radial-gradient(240px circle at var(--x) var(--y), black 10%, transparent 100%)",
+            "radial-gradient(280px circle at var(--x) var(--y), black 20%, transparent 100%)",
           WebkitMaskImage:
-            "radial-gradient(240px circle at var(--x) var(--y), black 10%, transparent 100%)",
+            "radial-gradient(280px circle at var(--x) var(--y), black 20%, transparent 100%)",
         }}
       />
     </div>
