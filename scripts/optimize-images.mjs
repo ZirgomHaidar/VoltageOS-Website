@@ -2,7 +2,13 @@ import fs from "node:fs"
 import path from "node:path"
 import sharp from "sharp"
 
-const DIRS = ["src/assets/devices", "public/images"]
+const DIRS = [
+  "src/assets/devices",
+  "src/assets/brands",
+  "src/assets/features",
+  "src/assets/sandbox",
+  "public/images",
+]
 
 async function optimize() {
   let count = 0

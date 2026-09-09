@@ -1,5 +1,5 @@
 import { motion } from "motion/react"
-import asus from "../assets/brands/slot1.png"
+import asus from "../assets/brands/slot1.webp"
 import brand2 from "../assets/brands/slot2.webp"
 import brand3 from "../assets/brands/slot3.webp"
 import brand4 from "../assets/brands/slot4.webp"
